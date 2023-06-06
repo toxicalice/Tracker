@@ -12,10 +12,10 @@
 		AAE80FDA2A213E5D00A35195 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE80FD92A213E5D00A35195 /* ViewController.swift */; };
 		AAE80FDD2A213E5D00A35195 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AAE80FDB2A213E5D00A35195 /* Main.storyboard */; };
 		AAE80FDF2A213E5E00A35195 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AAE80FDE2A213E5E00A35195 /* Assets.xcassets */; };
-		AAE80FE22A213E5E00A35195 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AAE80FE02A213E5E00A35195 /* LaunchScreen.storyboard */; };
 		AAE80FED2A213E5E00A35195 /* TrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE80FEC2A213E5E00A35195 /* TrackerTests.swift */; };
 		AAE80FF72A213E5E00A35195 /* TrackerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE80FF62A213E5E00A35195 /* TrackerUITests.swift */; };
 		AAE80FF92A213E5E00A35195 /* TrackerUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE80FF82A213E5E00A35195 /* TrackerUITestsLaunchTests.swift */; };
+		AAE810482A2DEC0400A35195 /* LaunchScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE810472A2DEC0400A35195 /* LaunchScreen.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,13 +42,13 @@
 		AAE80FD92A213E5D00A35195 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		AAE80FDC2A213E5D00A35195 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		AAE80FDE2A213E5E00A35195 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		AAE80FE12A213E5E00A35195 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AAE80FE32A213E5E00A35195 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AAE80FE82A213E5E00A35195 /* TrackerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TrackerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAE80FEC2A213E5E00A35195 /* TrackerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerTests.swift; sourceTree = "<group>"; };
 		AAE80FF22A213E5E00A35195 /* TrackerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TrackerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAE80FF62A213E5E00A35195 /* TrackerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerUITests.swift; sourceTree = "<group>"; };
 		AAE80FF82A213E5E00A35195 /* TrackerUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		AAE810472A2DEC0400A35195 /* LaunchScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreen.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,9 +102,9 @@
 				AAE80FD52A213E5D00A35195 /* AppDelegate.swift */,
 				AAE80FD72A213E5D00A35195 /* SceneDelegate.swift */,
 				AAE80FD92A213E5D00A35195 /* ViewController.swift */,
+				AAE810472A2DEC0400A35195 /* LaunchScreen.swift */,
 				AAE80FDB2A213E5D00A35195 /* Main.storyboard */,
 				AAE80FDE2A213E5E00A35195 /* Assets.xcassets */,
-				AAE80FE02A213E5E00A35195 /* LaunchScreen.storyboard */,
 				AAE80FE32A213E5E00A35195 /* Info.plist */,
 			);
 			path = Tracker;
@@ -231,7 +231,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AAE80FE22A213E5E00A35195 /* LaunchScreen.storyboard in Resources */,
 				AAE80FDF2A213E5E00A35195 /* Assets.xcassets in Resources */,
 				AAE80FDD2A213E5D00A35195 /* Main.storyboard in Resources */,
 			);
@@ -258,6 +257,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AAE810482A2DEC0400A35195 /* LaunchScreen.swift in Sources */,
 				AAE80FDA2A213E5D00A35195 /* ViewController.swift in Sources */,
 				AAE80FD62A213E5D00A35195 /* AppDelegate.swift in Sources */,
 				AAE80FD82A213E5D00A35195 /* SceneDelegate.swift in Sources */,
@@ -303,14 +303,6 @@
 				AAE80FDC2A213E5D00A35195 /* Base */,
 			);
 			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		AAE80FE02A213E5E00A35195 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				AAE80FE12A213E5E00A35195 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -445,6 +437,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -473,6 +466,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
