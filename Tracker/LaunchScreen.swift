@@ -17,6 +17,7 @@ class LaunchScreen: UIViewController  {
     override func viewDidLoad() {
         self.view.backgroundColor = UIColor(named: "LSBlue")
         setupViews()
+        switchToController(vc: TabViewController())
     }
     
     
