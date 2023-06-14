@@ -19,15 +19,13 @@ class TrackerCall:UICollectionViewCell{
     var uiLableDay: UILabel!
     var uiLableEmoji: UILabel!
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        
+    
+    func setupCell (tracker: Tracker, daysCount: Int) {
         contentView.addSubview(viewCell)
         viewCell.translatesAutoresizingMaskIntoConstraints = false
         viewCell.layer.cornerRadius = 16
         viewCell.layer.masksToBounds = true
         viewCell.backgroundColor = UIColor(named: "ColorSelection5")
-       
        
        NSLayoutConstraint.activate([
         
@@ -36,15 +34,11 @@ class TrackerCall:UICollectionViewCell{
         viewCell.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 0)
     
         ])
-        setupCellContent()
-        setupViewCellContent()
+        setupCellContent(tracker: tracker, daysCount: daysCount)
+        setupViewCellContent(tracker: tracker)
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    private func setupCellContent() {
+    private func setupCellContent(tracker: Tracker, daysCount: Int) {
         
         contentView.addSubview(cellFooterContainer)
         cellFooterContainer.translatesAutoresizingMaskIntoConstraints = false
@@ -63,7 +57,7 @@ class TrackerCall:UICollectionViewCell{
         uiLableDay.translatesAutoresizingMaskIntoConstraints = false
         uiLableDay.font = UIFont.systemFont(ofSize: 12, weight: .medium)
         uiLableDay.textColor = UIColor.black
-        uiLableDay.text = "123"
+        uiLableDay.text = String(daysCount)
         
         NSLayoutConstraint.activate([
             uiLableDay.leadingAnchor.constraint(equalTo: cellFooterContainer.leadingAnchor, constant: 12),
@@ -87,13 +81,11 @@ class TrackerCall:UICollectionViewCell{
             uiPlusButton.bottomAnchor.constraint(equalTo: cellFooterContainer.bottomAnchor, constant: -16)
         ])
         
-        uiPlusButton.accessibilityIdentifier = "logoutButton"
-        
     }
         
     
     
-private func setupViewCellContent() {
+private func setupViewCellContent(tracker: Tracker) {
     
     uiLableEmoji = UILabel()
     
@@ -103,6 +95,8 @@ private func setupViewCellContent() {
     uiLableEmoji.layer.cornerRadius = 12
     uiLableEmoji.layer.masksToBounds = true
     uiLableEmoji.backgroundColor = UIColor(named: "ColorEmojiLable")
+    uiLableEmoji.text = tracker.emoji
+    uiLableEmoji.textAlignment = .center
     
     NSLayoutConstraint.activate([
         uiLableEmoji.widthAnchor.constraint(equalToConstant: 24),
@@ -117,7 +111,7 @@ private func setupViewCellContent() {
     uiLableTitle.translatesAutoresizingMaskIntoConstraints = false
     uiLableTitle.font = UIFont.systemFont(ofSize: 12, weight: .medium)
     uiLableTitle.textColor = UIColor.white
-    uiLableTitle.text = "12323"
+    uiLableTitle.text = tracker.name
     uiLableTitle.contentMode = .bottomLeft
     uiLableTitle.numberOfLines = 2
     
