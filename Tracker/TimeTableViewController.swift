@@ -8,6 +8,10 @@
 import Foundation
 import UIKit
 
+protocol AddNewTimeTableDelegate {
+    func addDayOfWeek (days:[Tracker.Ordinary])
+}
+
 class TimeTableViewController: UIViewController {
     var uiHeaderLable: UILabel!
     var uiEmptyPlaceholder: UIImageView!
@@ -15,7 +19,7 @@ class TimeTableViewController: UIViewController {
     var tableView: UITableView!
     let idCell = "cell"
     let cellTitles = Tracker.Ordinary.allCases
-    let selectedTitles: Dictionary<Tracker.Ordinary, Bool> = [
+    var selectedTitles: Dictionary<Tracker.Ordinary, Bool> = [
         .monday : false,
         .tuesday : false,
         .wednesday : false,
@@ -24,6 +28,7 @@ class TimeTableViewController: UIViewController {
         .saturday : false,
         .sunday : false
     ]
+    var delegate: AddNewTimeTableDelegate?
     
     override func viewDidLoad() {
         setupViews()
@@ -50,7 +55,7 @@ class TimeTableViewController: UIViewController {
         
         
         let uiButtonReady = UIButton()
-        uiButtonReady.addTarget(self, action: #selector(Self.didTapButtonuReady), for: .touchUpInside)
+        uiButtonReady.addTarget(self, action: #selector(self.didTapButtonuReady), for: .touchUpInside)
         
         view.addSubview(uiButtonReady)
         uiButtonReady.translatesAutoresizingMaskIntoConstraints = false
@@ -59,7 +64,6 @@ class TimeTableViewController: UIViewController {
         uiButtonReady.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
         uiButtonReady.tintColor = .white
         uiButtonReady.layer.cornerRadius = 16
-        uiButtonReady.isEnabled = false
         
         NSLayoutConstraint.activate([
             uiButtonReady.heightAnchor.constraint(equalToConstant: 60),
@@ -89,7 +93,11 @@ class TimeTableViewController: UIViewController {
     
     @objc
     private func didTapButtonuReady() {
-        //TODO doing done
+        let days = selectedTitles.filter { _, value in
+            value == true
+        }
+        delegate?.addDayOfWeek(days: days.keys.map({ $0 }))
+        dismiss(animated: true)
     }
     
 }//конец класса TimeTableViewController
@@ -113,16 +121,17 @@ extension TimeTableViewController: UITableViewDataSource{
         cellTitles.count
     }
     
-//    @objc
-//    func onSwitchChanged(_ switch: UISwitch) {
-//
-//    }
+    @objc
+    func onSwitchChanged(_ switchView: UISwitch) {
+       let dayOfWeek = cellTitles[switchView.tag]
+        selectedTitles[dayOfWeek] = switchView.isOn
+    }
     
     func createSwitch(index: IndexPath) -> UISwitch {
         let switchView = UISwitch()
         switchView.onTintColor = UIColor(named: "Blue")
-//        switchView.addTarget(self, action: #selector(onSwitchChanged(_:)), for: .valueChanged)
-        
+        switchView.addTarget(self, action: #selector(onSwitchChanged(_:)), for: .valueChanged)
+        switchView.tag = index.row
         return switchView
     }
     

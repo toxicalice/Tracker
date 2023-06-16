@@ -12,8 +12,8 @@ protocol NewHabitDelegate {
     func addTracker(tracker: Tracker, category: String)
 }
 
-class NewHabitViewController: UIViewController {
-    
+class NewHabitViewController: UIViewController, AddCategoryDelegate, AddNewTimeTableDelegate {
+ 
     var uiHeaderLable: UILabel!
     var uiTextField: UITextField!
     var tableView: UITableView!
@@ -22,6 +22,8 @@ class NewHabitViewController: UIViewController {
     var trackerName:String? = nil
     let uiButtonCreate = UIButton()
     var trackersVCdelegate: NewHabitDelegate? = nil
+    var selectedCategory:String?
+    var selectedDay:[Tracker.Ordinary] = []
     
     
     override func viewDidLoad() {
@@ -158,9 +160,22 @@ class NewHabitViewController: UIViewController {
     @objc
     private func didTapButtonCreate() {
         // TODO доделать логику сохранения
-        trackersVCdelegate?.addTracker(tracker: Tracker(id: UUID(), name: trackerName ?? "", color: .brown, emoji: "😀", ordinary: [.friday]), category: "Рутина")
+        guard let selectedCategory = selectedCategory else {return}
+        guard let trackerName = trackerName else {return}
+        trackersVCdelegate?.addTracker(tracker: Tracker(id: UUID(), name: trackerName, color: .brown, emoji: "😀", ordinary: [.friday]), category: selectedCategory)
         dismiss(animated: true)
     }
+    
+    func categorySelected(name: String) {
+        selectedCategory = name
+        tableView.reloadData()
+    }
+    
+    func addDayOfWeek(days:[Tracker.Ordinary]) {
+        selectedDay = days
+        tableView.reloadData()
+    }
+    
     
 } //конец класса NewHabitViewController
 
@@ -171,9 +186,13 @@ extension NewHabitViewController: UITableViewDelegate {
         
         switch (indexPath.row) {
         case 0:
-            present(CategoriesViewController(), animated: true)
+            let categoriesVC = CategoriesViewController()
+            categoriesVC.delegate = self
+            present(categoriesVC, animated: true)
         case 1:
-            present(TimeTableViewController(), animated: true)
+            let timeTableVC = TimeTableViewController()
+            timeTableVC.delegate = self
+            present(timeTableVC, animated: true)
         default:
             break
         }
@@ -193,11 +212,21 @@ extension NewHabitViewController: UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-       let cell =  tableView.dequeueReusableCell(withIdentifier: idCell, for: indexPath)
+        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: idCell)
         let title = callTitles[indexPath.row]
         cell.textLabel?.text = title
         cell.backgroundColor = .clear
         cell.accessoryType = .disclosureIndicator
+        
+        if indexPath.row == 0 {
+            cell.detailTextLabel?.text = selectedCategory
+            cell.detailTextLabel?.textColor = UIColor(named: "ColorGray")
+        } else {
+            if !selectedDay.isEmpty {
+                cell.detailTextLabel?.text = selectedDay[0].rawValue
+                cell.detailTextLabel?.textColor = UIColor(named: "ColorGray")
+            }
+        }
     
        return cell
         

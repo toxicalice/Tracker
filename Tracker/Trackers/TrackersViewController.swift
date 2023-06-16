@@ -16,25 +16,37 @@ class TrackersViewController: UIViewController, AddTrackerDelegate {
     var searchBar:UISearchBar!
     var uiEmptyPlaceholder: UIImageView!
     var lableEmpty: UILabel!
-    let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+    var collectionView: UICollectionView!
     // тут кончается все для верстки
     var currentDate: Date = Date()
     
     override func viewDidLoad() {
         setupViews()
+        setupEmptyPlaceholder()
+        setupCollectionView()
         if TrackersController.shared.categories.isEmpty {
-            setupEmptyPlaceholder()
+            showCollectionView(visible: false)
         } else {
-            setupCollectionView()
+            showPlaceholder(visible: false)
         }
-        
-        collectionView.register(TrackerCall.self, forCellWithReuseIdentifier: "cell")
-        collectionView.register(SupplementaryView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "header")
         self.view.backgroundColor = UIColor.white
     }
     
+    private func showCollectionView(visible: Bool) {
+        uiEmptyPlaceholder?.isHidden = visible
+        lableEmpty?.isHidden = visible
+        collectionView?.isHidden = !visible
+    }
+    private func showPlaceholder (visible: Bool) {
+        uiEmptyPlaceholder?.isHidden = !visible
+        lableEmpty?.isHidden = !visible
+        collectionView?.isHidden = visible
+    }
+    
     private func setupCollectionView() {
+       
         
+        collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         view.addSubview(collectionView)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.backgroundColor = .clear
@@ -46,6 +58,9 @@ class TrackersViewController: UIViewController, AddTrackerDelegate {
         ])
         collectionView.dataSource = self
         collectionView.delegate = self
+        
+        collectionView.register(TrackerCall.self, forCellWithReuseIdentifier: "cell")
+        collectionView.register(SupplementaryView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "header")
     }
     
     private func setupEmptyPlaceholder() {
@@ -179,18 +194,24 @@ class TrackersViewController: UIViewController, AddTrackerDelegate {
         let oldCat = TrackersController.shared.categories.first { cat in
             cat.header == category
         }
-        guard let oldCat = oldCat else {return}
         
-        var newTrackers = oldCat.trackers
-        newTrackers.append(tracker)
-        
-        let newCat = TrackerCategory(header: oldCat.header, trackers: newTrackers)
-        let index = TrackersController.shared.categories.firstIndex { cat in
-            cat.header == category
+       if let oldCat = oldCat
+        {
+           var newTrackers = oldCat.trackers
+           newTrackers.append(tracker)
+           
+           let newCat = TrackerCategory(header: oldCat.header, trackers: newTrackers)
+           let index = TrackersController.shared.categories.firstIndex { cat in
+               cat.header == category
+           }
+           guard let index = index else {return}
+           TrackersController.shared.categories.remove(at: index)
+           TrackersController.shared.categories.insert(newCat, at: index)
+       } else {
+            TrackersController.shared.categories.append(TrackerCategory(header: category, trackers: [tracker]))
+            
         }
-        guard let index = index else {return}
-        TrackersController.shared.categories.remove(at: index)
-        TrackersController.shared.categories.insert(newCat, at: index)
+       showCollectionView(visible: true)
         collectionView.reloadData()
     }
 
@@ -208,7 +229,7 @@ extension TrackersViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? TrackerCall
-        guard let category = TrackersController.shared.categories.first else {return cell!}
+        let category = TrackersController.shared.categories[indexPath.section]
         cell?.setupCell(tracker: category.trackers[indexPath.row], daysCount: 5)
         return cell!
     }
@@ -235,8 +256,7 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let widthView = (collectionView.bounds.width ) / 2 - 5
         return CGSize(width:widthView, height: 0.886 * widthView)
-        
-        }
+    }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
             

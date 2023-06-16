@@ -9,6 +9,6 @@ import Foundation
 
 class TrackersController {
    static let shared: TrackersController = TrackersController()
-    var categories: [TrackerCategory] = [TrackerCategory(header: "Пупа", trackers: []), TrackerCategory(header: "Лупа", trackers: []), TrackerCategory(header: "За", trackers: [])]
+    var categories: [TrackerCategory] = []
     var completedTrackers: Set<TrackerRecord> = []
 }

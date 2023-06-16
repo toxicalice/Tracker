@@ -12,15 +12,18 @@ import UIKit
 
 class TrackerCall:UICollectionViewCell{
     
-    let viewCell = UIView()
-    let cellFooterContainer = UIView()
+    var viewCell: UIView!
+    var cellFooterContainer: UIView!
     var uiLableTitle: UILabel!
     var uiImagePlusButton: UIImageView!
     var uiLableDay: UILabel!
     var uiLableEmoji: UILabel!
+    var uiPlusButton: UIButton!
     
-    
-    func setupCell (tracker: Tracker, daysCount: Int) {
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+
+        viewCell = UIView()
         contentView.addSubview(viewCell)
         viewCell.translatesAutoresizingMaskIntoConstraints = false
         viewCell.layer.cornerRadius = 16
@@ -34,12 +37,26 @@ class TrackerCall:UICollectionViewCell{
         viewCell.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 0)
     
         ])
-        setupCellContent(tracker: tracker, daysCount: daysCount)
-        setupViewCellContent(tracker: tracker)
+        
+        setupCellContent()
+        setupViewCellContent()
     }
     
-    private func setupCellContent(tracker: Tracker, daysCount: Int) {
-        
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
+    func setupCell (tracker: Tracker, daysCount: Int) {
+        uiLableDay.text = String(daysCount)
+        uiLableEmoji.text = tracker.emoji
+        uiLableTitle.text = tracker.name
+        uiPlusButton.tintColor = tracker.color
+        viewCell.backgroundColor = tracker.color
+    }
+    
+    private func setupCellContent() {
+        cellFooterContainer = UIView()
         contentView.addSubview(cellFooterContainer)
         cellFooterContainer.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -57,7 +74,7 @@ class TrackerCall:UICollectionViewCell{
         uiLableDay.translatesAutoresizingMaskIntoConstraints = false
         uiLableDay.font = UIFont.systemFont(ofSize: 12, weight: .medium)
         uiLableDay.textColor = UIColor.black
-        uiLableDay.text = String(daysCount)
+       
         
         NSLayoutConstraint.activate([
             uiLableDay.leadingAnchor.constraint(equalTo: cellFooterContainer.leadingAnchor, constant: 12),
@@ -66,11 +83,10 @@ class TrackerCall:UICollectionViewCell{
         
         ])
         
-        let uiPlusButton = UIButton.systemButton(with: UIImage(named:"circlePlusButton")!, target: self, action: #selector(Self.didTapButton))
+        uiPlusButton = UIButton.systemButton(with: UIImage(named:"circlePlusButton")!, target: self, action: #selector(Self.didTapButton))
         
         cellFooterContainer.addSubview(uiPlusButton)
         uiPlusButton.translatesAutoresizingMaskIntoConstraints = false
-        uiPlusButton.tintColor = UIColor.black //TODO цвет должен зависеть от цвета viewCell
         
         NSLayoutConstraint.activate([
             uiPlusButton.widthAnchor.constraint(equalToConstant: 34),
@@ -85,17 +101,14 @@ class TrackerCall:UICollectionViewCell{
         
     
     
-private func setupViewCellContent(tracker: Tracker) {
-    
-    uiLableEmoji = UILabel()
-    
+private func setupViewCellContent() {
+        
     uiLableEmoji = UILabel()
     viewCell.addSubview(uiLableEmoji)
     uiLableEmoji.translatesAutoresizingMaskIntoConstraints = false
     uiLableEmoji.layer.cornerRadius = 12
     uiLableEmoji.layer.masksToBounds = true
     uiLableEmoji.backgroundColor = UIColor(named: "ColorEmojiLable")
-    uiLableEmoji.text = tracker.emoji
     uiLableEmoji.textAlignment = .center
     
     NSLayoutConstraint.activate([
@@ -111,7 +124,6 @@ private func setupViewCellContent(tracker: Tracker) {
     uiLableTitle.translatesAutoresizingMaskIntoConstraints = false
     uiLableTitle.font = UIFont.systemFont(ofSize: 12, weight: .medium)
     uiLableTitle.textColor = UIColor.white
-    uiLableTitle.text = tracker.name
     uiLableTitle.contentMode = .bottomLeft
     uiLableTitle.numberOfLines = 2
     

@@ -8,12 +8,17 @@
 import Foundation
 import UIKit
 
+protocol AddNewCategoryViewControllerDelegate {
+    func addCategory(name:String)
+}
+
 class AddNewCategoryViewController: UIViewController {
     
     var uiHeaderLable: UILabel!
     var uiTextField: UITextField!
     var trackerName:String? = nil
     let uiButtonReady = UIButton()
+    var delegate: AddNewCategoryViewControllerDelegate? 
     
     override func viewDidLoad() {
         setupViews()
@@ -77,8 +82,11 @@ class AddNewCategoryViewController: UIViewController {
     @objc
     private func didTapButtonuReady() {
         
+        guard let text = uiTextField.text else {return}
+        delegate?.addCategory(name: text)
+        dismiss(animated: true)
         
-      //TODO Если введен хотя бы 1 символ, то кнопка «Готово» становится активной При нажатии на кнопку «Готово» открывается экран выбора категории. Созданная категория отмечена синей галочкой;
+      //TODO  При нажатии на кнопку «Готово» открывается экран выбора категории. Созданная категория отмечена синей галочкой;
     }
     
     @objc
