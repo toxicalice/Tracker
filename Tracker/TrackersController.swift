@@ -11,4 +11,11 @@ class TrackersController {
    static let shared: TrackersController = TrackersController()
     var categories: [TrackerCategory] = []
     var completedTrackers: Set<TrackerRecord> = []
+    
+    
+    func isTrackerDone(date:Date, trackerID:UUID) -> Bool {
+         completedTrackers.first { record in
+            record.trackerId == trackerID && record.date == date
+        } != nil
+    }
 }

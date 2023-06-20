@@ -11,6 +11,7 @@ import UIKit
 
 protocol TracerCellDelegate {
     func addDayForCounter(tracker: Tracker)
+    func removeDayForCounter (tracker: Tracker)
 }
 
 class TrackerCall:UICollectionViewCell{
@@ -23,6 +24,8 @@ class TrackerCall:UICollectionViewCell{
     var uiLableEmoji: UILabel!
     var uiPlusButton: UIButton!
     var delegate: TracerCellDelegate?
+    var done: Bool = false
+    var tracker:Tracker?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -51,12 +54,19 @@ class TrackerCall:UICollectionViewCell{
     }
     
     
-    func setupCell (tracker: Tracker, daysCount: Int) {
-        uiLableDay.text = String(daysCount)
+    func setupCell(tracker: Tracker, daysCount: Int, done:Bool) {
+        uiLableDay.text = "\(String(daysCount)) дней" //TODO поглить как менять дней на день и тд
         uiLableEmoji.text = tracker.emoji
         uiLableTitle.text = tracker.name
         uiPlusButton.tintColor = tracker.color
         viewCell.backgroundColor = tracker.color
+        self.done = done
+        if done {
+            uiPlusButton.setImage(UIImage(named: "circleDoneButton"), for: UIControl.State.normal)
+        } else {
+            uiPlusButton.setImage(UIImage(named: "circlePlusButton"), for: UIControl.State.normal)
+        }
+        self.tracker = tracker
     }
     
     private func setupCellContent() {
@@ -142,7 +152,18 @@ private func setupViewCellContent() {
     
     @objc
     private func didTapPlusButton(){
-        uiPlusButton.setImage(UIImage(named: "doneButton"), for: UIControl.State.normal)
+        done = !done
+        
+        if done {
+            uiPlusButton.setImage(UIImage(named: "circleDoneButton"), for: UIControl.State.normal)
+            guard let tracker = self.tracker else {return}
+            delegate?.addDayForCounter(tracker: tracker)
+        } else {
+            uiPlusButton.setImage(UIImage(named: "circlePlusButton"), for: UIControl.State.normal)
+            guard let tracker = self.tracker else {return}
+            delegate?.removeDayForCounter(tracker: tracker)
+        }
+        
      // только чет галочку не видно
         
     }

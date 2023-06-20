@@ -10,8 +10,7 @@ import WebKit
 import UIKit
 
 class TrackersViewController: UIViewController, AddTrackerDelegate, TracerCellDelegate {
-    
-    
+   
     var labelName:UILabel!
     var lableData:UIDatePicker!
     var searchBar:UISearchBar!
@@ -228,7 +227,18 @@ class TrackersViewController: UIViewController, AddTrackerDelegate, TracerCellDe
        showCollectionView(visible: true)
         collectionView.reloadData()
     }
-
+    
+    func addDayForCounter(tracker: Tracker) {
+        
+        let tracerRecord = TrackerRecord(trackerId: tracker.id, date: currentDate)
+        TrackersController.shared.completedTrackers.insert(tracerRecord)
+    }
+    
+    func removeDayForCounter(tracker: Tracker) {
+        let tracerRecord = TrackerRecord(trackerId: tracker.id, date: currentDate)
+        TrackersController.shared.completedTrackers.remove(tracerRecord)
+    }
+    
     
 } // конец класса TrackersViewController
     
@@ -244,7 +254,9 @@ extension TrackersViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? TrackerCall
         let category = TrackersController.shared.categories[indexPath.section]
-        cell?.setupCell(tracker: category.trackers[indexPath.row], daysCount: 5)
+        let done = TrackersController.shared.isTrackerDone(date: currentDate, trackerID: category.trackers[indexPath.row].id)
+        cell?.setupCell(tracker: category.trackers[indexPath.row], daysCount: 5, done: done)
+        cell?.delegate = self
         return cell!
     }
     
