@@ -9,6 +9,9 @@ import Foundation
 import WebKit
 import UIKit
 
+protocol TracerCellDelegate {
+    func addDayForCounter(tracker: Tracker)
+}
 
 class TrackerCall:UICollectionViewCell{
     
@@ -19,6 +22,7 @@ class TrackerCall:UICollectionViewCell{
     var uiLableDay: UILabel!
     var uiLableEmoji: UILabel!
     var uiPlusButton: UIButton!
+    var delegate: TracerCellDelegate?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -83,7 +87,7 @@ class TrackerCall:UICollectionViewCell{
         
         ])
         
-        uiPlusButton = UIButton.systemButton(with: UIImage(named:"circlePlusButton")!, target: self, action: #selector(Self.didTapButton))
+        uiPlusButton = UIButton.systemButton(with: UIImage(named:"circlePlusButton")!, target: self, action: #selector(Self.didTapPlusButton))
         
         cellFooterContainer.addSubview(uiPlusButton)
         uiPlusButton.translatesAutoresizingMaskIntoConstraints = false
@@ -137,8 +141,10 @@ private func setupViewCellContent() {
 }
     
     @objc
-    private func didTapButton(){
-        // TODO дописать сюда логику нажатия на круглую кнопку с плюсом
+    private func didTapPlusButton(){
+        uiPlusButton.setImage(UIImage(named: "doneButton"), for: UIControl.State.normal)
+     // только чет галочку не видно
+        
     }
         
 } // конец класса TrackerCall

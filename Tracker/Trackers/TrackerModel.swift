@@ -13,7 +13,7 @@ struct Tracker {
     let name: String
     let color: UIColor
     let emoji: String
-    let ordinary: Set<Ordinary>
+    let ordinary: [Ordinary]
     
     enum Ordinary: String, CaseIterable {
         case monday = "Понедельник"
@@ -23,15 +23,27 @@ struct Tracker {
         case friday = "Пятница"
         case saturday = "Суббота"
         case sunday = "Воскресенье"
+        
+        func shortText() -> String {
+            switch self {
+            case .monday : return "Пн"
+            case .tuesday : return "Вт"
+            case .wednesday : return "Ср"
+            case .thursday : return "Чт"
+            case .friday : return "Пт"
+            case .saturday : return "Сб"
+            case .sunday : return "Вс"
+            }
+        }
     }
 }
 
-struct TrackerCategory{
+struct TrackerCategory {
     let header: String
     let trackers: Array<Tracker>
 }
 
 struct TrackerRecord: Hashable {
-    let idRecord: UUID
+    let trackerId: UUID
     let date: Date
 }

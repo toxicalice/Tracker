@@ -162,7 +162,7 @@ class NewHabitViewController: UIViewController, AddCategoryDelegate, AddNewTimeT
         // TODO доделать логику сохранения
         guard let selectedCategory = selectedCategory else {return}
         guard let trackerName = trackerName else {return}
-        trackersVCdelegate?.addTracker(tracker: Tracker(id: UUID(), name: trackerName, color: .brown, emoji: "😀", ordinary: [.friday]), category: selectedCategory)
+        trackersVCdelegate?.addTracker(tracker: Tracker(id: UUID(), name: trackerName, color: .brown, emoji: "😀", ordinary: selectedDay), category: selectedCategory)
         dismiss(animated: true)
     }
     
@@ -192,6 +192,7 @@ extension NewHabitViewController: UITableViewDelegate {
         case 1:
             let timeTableVC = TimeTableViewController()
             timeTableVC.delegate = self
+            timeTableVC.setupSelectedDays(selectedDay: selectedDay)
             present(timeTableVC, animated: true)
         default:
             break
@@ -223,7 +224,12 @@ extension NewHabitViewController: UITableViewDataSource{
             cell.detailTextLabel?.textColor = UIColor(named: "ColorGray")
         } else {
             if !selectedDay.isEmpty {
-                cell.detailTextLabel?.text = selectedDay[0].rawValue
+                var text =  ""
+                selectedDay.forEach { day in
+                    text += "\(day.shortText()), "
+                }
+                text = String(text.dropLast(2))
+                cell.detailTextLabel?.text = text
                 cell.detailTextLabel?.textColor = UIColor(named: "ColorGray")
             }
         }

@@ -9,7 +9,8 @@ import Foundation
 import WebKit
 import UIKit
 
-class TrackersViewController: UIViewController, AddTrackerDelegate {
+class TrackersViewController: UIViewController, AddTrackerDelegate, TracerCellDelegate {
+    
     
     var labelName:UILabel!
     var lableData:UIDatePicker!
@@ -19,6 +20,18 @@ class TrackersViewController: UIViewController, AddTrackerDelegate {
     var collectionView: UICollectionView!
     // тут кончается все для верстки
     var currentDate: Date = Date()
+    var visibleTrackers: [TrackerCategory] = []
+    
+    private func updateVisibleTrackers() {
+//        let trackers = TrackersController.shared.categories.filter { category in
+//            category.trackers.filter { tracker in
+//                tracker.ordinary.contains { day in
+//                    currentDate
+//
+//                }
+//            }
+//        }
+    }
     
     override func viewDidLoad() {
         setupViews()
@@ -177,6 +190,7 @@ class TrackersViewController: UIViewController, AddTrackerDelegate {
     private func onDayPicked(date: UIDatePicker) {
         currentDate = date.date
         presentedViewController?.dismiss(animated: false, completion: nil)
+        
     }
     
     @objc

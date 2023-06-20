@@ -90,13 +90,20 @@ class TimeTableViewController: UIViewController {
         
     }
     
+    func setupSelectedDays(selectedDay: [Tracker.Ordinary]) {
+        selectedDay.forEach { day in
+            selectedTitles[day] = true
+        }
+        tableView?.reloadData()
+    }
+    
     
     @objc
     private func didTapButtonuReady() {
         let days = selectedTitles.filter { _, value in
             value == true
         }
-        delegate?.addDayOfWeek(days: days.keys.map({ $0 }))
+        delegate?.addDayOfWeek(days: days.keys.map({ $0 })) //TODO добавить сортировку элементов
         dismiss(animated: true)
     }
     
@@ -132,6 +139,8 @@ extension TimeTableViewController: UITableViewDataSource{
         switchView.onTintColor = UIColor(named: "Blue")
         switchView.addTarget(self, action: #selector(onSwitchChanged(_:)), for: .valueChanged)
         switchView.tag = index.row
+        let key = cellTitles[index.row]
+        switchView.isOn = selectedTitles[key] ?? false
         return switchView
     }
     
