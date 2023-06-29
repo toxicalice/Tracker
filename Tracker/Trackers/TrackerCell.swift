@@ -26,6 +26,7 @@ class TrackerCall:UICollectionViewCell{
     var delegate: TracerCellDelegate?
     var done: Bool = false
     var tracker:Tracker?
+    var activeButton: Bool = true
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -54,12 +55,13 @@ class TrackerCall:UICollectionViewCell{
     }
     
     
-    func setupCell(tracker: Tracker, daysCount: Int, done:Bool) {
+    func setupCell(tracker: Tracker, daysCount: Int, done:Bool, activeButton: Bool) {
         uiLableDay.text = "\(String(daysCount)) дней" //TODO поглить как менять дней на день и тд
         uiLableEmoji.text = tracker.emoji
         uiLableTitle.text = tracker.name
         uiPlusButton.tintColor = tracker.color
         viewCell.backgroundColor = tracker.color
+        self.activeButton = activeButton
         self.done = done
         if done {
             uiPlusButton.setImage(UIImage(named: "circleDoneButton"), for: UIControl.State.normal)
@@ -152,8 +154,10 @@ private func setupViewCellContent() {
     
     @objc
     private func didTapPlusButton(){
-        done = !done
         
+        if activeButton == false {return}
+        
+        done = !done
         if done {
             uiPlusButton.setImage(UIImage(named: "circleDoneButton"), for: UIControl.State.normal)
             guard let tracker = self.tracker else {return}

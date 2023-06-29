@@ -103,7 +103,7 @@ class TimeTableViewController: UIViewController {
         let days = selectedTitles.filter { _, value in
             value == true
         }
-        delegate?.addDayOfWeek(days: days.keys.map({ $0 })) //TODO добавить сортировку элементов
+        delegate?.addDayOfWeek(days: days.keys.map({ $0 })) //TODO добавить сортировку элементов в следующей жизни
         dismiss(animated: true)
     }
     
@@ -113,8 +113,6 @@ class TimeTableViewController: UIViewController {
 extension TimeTableViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        
-        
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

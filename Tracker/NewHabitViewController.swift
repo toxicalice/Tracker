@@ -116,7 +116,7 @@ class NewHabitViewController: UIViewController, AddCategoryDelegate, AddNewTimeT
         uiButtonCreate.addTarget(self, action: #selector(Self.didTapButtonCreate), for: .touchUpInside)
         
         uiButtonCreate.translatesAutoresizingMaskIntoConstraints = false
-        uiButtonCreate.backgroundColor = UIColor(named: "ColorBlack")
+        uiButtonCreate.backgroundColor = UIColor(named: "ColorGray")
         uiButtonCreate.setTitle("Создать", for: .normal)
         uiButtonCreate.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
         uiButtonCreate.tintColor = .white
@@ -142,12 +142,15 @@ class NewHabitViewController: UIViewController, AddCategoryDelegate, AddNewTimeT
     
     @objc
     private func textChanged(_ textField: UITextField) {
-        //TODO добавить логику поиска по категориям
         trackerName = textField.text
         if let trackerName = trackerName, !trackerName.isEmpty {
             uiButtonCreate.isEnabled = true
+            uiButtonCreate.backgroundColor = UIColor(named: "ColorBlack")
+
         } else {
             uiButtonCreate.isEnabled = false
+            uiButtonCreate.backgroundColor = UIColor(named: "ColorGray")
+
         }
         
     }
@@ -159,7 +162,6 @@ class NewHabitViewController: UIViewController, AddCategoryDelegate, AddNewTimeT
     
     @objc
     private func didTapButtonCreate() {
-        // TODO доделать логику сохранения
         guard let selectedCategory = selectedCategory else {return}
         guard let trackerName = trackerName else {return}
         trackersVCdelegate?.addTracker(tracker: Tracker(id: UUID(), name: trackerName, color: .brown, emoji: "😀", ordinary: selectedDay), category: selectedCategory)

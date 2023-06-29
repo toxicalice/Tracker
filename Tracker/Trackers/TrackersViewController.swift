@@ -33,6 +33,7 @@ class TrackersViewController: UIViewController, AddTrackerDelegate, TracerCellDe
         self.view.backgroundColor = UIColor.white
         
         searchBar.delegate = self
+        updateVisibleTrackers()
     }
     
     private func showCollectionView(visible: Bool) {
@@ -47,7 +48,6 @@ class TrackersViewController: UIViewController, AddTrackerDelegate, TracerCellDe
     }
     
     private func setupCollectionView() {
-       
         
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         view.addSubview(collectionView)
@@ -189,15 +189,22 @@ class TrackersViewController: UIViewController, AddTrackerDelegate, TracerCellDe
         let dateFilter = categories.map { category in
             let trackers = category.trackers.filter { tracker in
                 let day = Tracker.Ordinary.getByIndex(index: currentDate.dayNumberOfWeek())
-                return tracker.ordinary.contains { ordinary in
+                let hasDay = tracker.ordinary.contains { ordinary in
                     ordinary == day
                 }
+                let hasName = searchBar.text?.isEmpty != false || tracker.name.lowercased().contains(searchBar.text?.lowercased() ?? "")
+                
+                return hasDay && hasName
             }
             let trackerCategory = TrackerCategory(header: category.header, trackers: trackers)
             return trackerCategory
+        }.filter { category in
+            !category.trackers.isEmpty
         }
         visibleTrackers = []
         visibleTrackers = dateFilter
+        showPlaceholder(visible: visibleTrackers.isEmpty)
+        showCollectionView(visible: !visibleTrackers.isEmpty)
         collectionView.reloadData()
     }
     
@@ -233,22 +240,23 @@ class TrackersViewController: UIViewController, AddTrackerDelegate, TracerCellDe
             TrackersController.shared.categories.append(TrackerCategory(header: category, trackers: [tracker]))
             
         }
-       showCollectionView(visible: true)
-        visibleTrackers = TrackersController.shared.categories
+        showCollectionView(visible: true)
         searchBar.text = nil
         searchBar.resignFirstResponder()
-        collectionView.reloadData()
+        updateVisibleTrackers()
     }
     
     func addDayForCounter(tracker: Tracker) {
         
         let tracerRecord = TrackerRecord(trackerId: tracker.id, date: currentDate)
         TrackersController.shared.completedTrackers.insert(tracerRecord)
+        collectionView.reloadData()
     }
     
     func removeDayForCounter(tracker: Tracker) {
         let tracerRecord = TrackerRecord(trackerId: tracker.id, date: currentDate)
         TrackersController.shared.completedTrackers.remove(tracerRecord)
+        collectionView.reloadData()
     }
     
     
@@ -267,7 +275,8 @@ extension TrackersViewController: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? TrackerCall
         let category = visibleTrackers[indexPath.section]
         let done = TrackersController.shared.isTrackerDone(date: currentDate, trackerID: category.trackers[indexPath.row].id)
-        cell?.setupCell(tracker: category.trackers[indexPath.row], daysCount: 5, done: done)
+        let activeButton = currentDate <= Date() 
+        cell?.setupCell(tracker: category.trackers[indexPath.row], daysCount: TrackersController.shared.completedTrackersCount(id: category.trackers[indexPath.row].id), done: done, activeButton: activeButton)
         cell?.delegate = self
         return cell!
     }
@@ -310,32 +319,7 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
 
 extension TrackersViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String){
-        // 1. взять все трекеры (для выбранной даты)
-        
-        let categories = TrackersController.shared.categories
-        
-        // 2. выполнить поиск трекеров по имени с помощью searchText
-        
-        if searchText.isEmpty{
-            visibleTrackers = categories
-            collectionView.reloadData()
-            return
-        }
-            let filteredCategories = categories.map { category in
-                let trackers = category.trackers.filter { tracker in
-                    tracker.name == searchText
-                }
-                let trackerCategory = TrackerCategory(header: category.header, trackers: trackers)
-                return trackerCategory
-            }
-            
-            // 3. Очистить список видимых трекеров
-            
-            visibleTrackers = []
-            // 4. Обновить список видимых трекеров visibleTrackers
-            
-            visibleTrackers = filteredCategories
-            collectionView.reloadData()
+        updateVisibleTrackers()
     }
 }
 
