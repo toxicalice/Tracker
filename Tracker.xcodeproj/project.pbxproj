@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AA873EBC2A4CB3C7005DF9EE /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA873EBB2A4CB3C6005DF9EE /* Extensions.swift */; };
 		AA9131CA2A30AE3700CD0A32 /* SupplementaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9131C92A30AE3700CD0A32 /* SupplementaryView.swift */; };
 		AA9131CC2A322BA900CD0A32 /* StatisticViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9131CB2A322BA900CD0A32 /* StatisticViewController.swift */; };
 		AA9131CE2A324DFA00CD0A32 /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9131CD2A324DFA00CD0A32 /* UIViewControllerExtension.swift */; };
@@ -48,6 +49,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		AA873EBB2A4CB3C6005DF9EE /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		AA9131C92A30AE3700CD0A32 /* SupplementaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupplementaryView.swift; sourceTree = "<group>"; };
 		AA9131CB2A322BA900CD0A32 /* StatisticViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticViewController.swift; sourceTree = "<group>"; };
 		AA9131CD2A324DFA00CD0A32 /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
@@ -124,6 +126,7 @@
 			isa = PBXGroup;
 			children = (
 				AA9131D82A36650900CD0A32 /* PaddingTextField.swift */,
+				AA873EBB2A4CB3C6005DF9EE /* Extensions.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -325,6 +328,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AAE810482A2DEC0400A35195 /* LaunchScreen.swift in Sources */,
+				AA873EBC2A4CB3C7005DF9EE /* Extensions.swift in Sources */,
 				AA9131DB2A37998B00CD0A32 /* TrackerModel.swift in Sources */,
 				AA9131D92A36650900CD0A32 /* PaddingTextField.swift in Sources */,
 				AA9131D52A36501700CD0A32 /* NewHabitViewController.swift in Sources */,

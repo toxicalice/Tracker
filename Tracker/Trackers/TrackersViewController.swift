@@ -9,7 +9,7 @@ import Foundation
 import WebKit
 import UIKit
 
-class TrackersViewController: UIViewController, AddTrackerDelegate, TracerCellDelegate {
+class TrackersViewController: UIViewController, AddTrackerDelegate, TracerCellDelegate{
    
     var labelName:UILabel!
     var lableData:UIDatePicker!
@@ -21,17 +21,6 @@ class TrackersViewController: UIViewController, AddTrackerDelegate, TracerCellDe
     var currentDate: Date = Date()
     var visibleTrackers: [TrackerCategory] = []
     
-    private func updateVisibleTrackers() {
-//        let trackers = TrackersController.shared.categories.filter { category in
-//            category.trackers.filter { tracker in
-//                tracker.ordinary.contains { day in
-//                    currentDate
-//
-//                }
-//            }
-//        }
-    }
-    
     override func viewDidLoad() {
         setupViews()
         setupEmptyPlaceholder()
@@ -42,6 +31,8 @@ class TrackersViewController: UIViewController, AddTrackerDelegate, TracerCellDe
             showPlaceholder(visible: false)
         }
         self.view.backgroundColor = UIColor.white
+        
+        searchBar.delegate = self
     }
     
     private func showCollectionView(visible: Bool) {
@@ -189,7 +180,25 @@ class TrackersViewController: UIViewController, AddTrackerDelegate, TracerCellDe
     private func onDayPicked(date: UIDatePicker) {
         currentDate = date.date
         presentedViewController?.dismiss(animated: false, completion: nil)
+        updateVisibleTrackers()
+    }
+    
+    private func updateVisibleTrackers() {
         
+        let categories = TrackersController.shared.categories
+        let dateFilter = categories.map { category in
+            let trackers = category.trackers.filter { tracker in
+                let day = Tracker.Ordinary.getByIndex(index: currentDate.dayNumberOfWeek())
+                return tracker.ordinary.contains { ordinary in
+                    ordinary == day
+                }
+            }
+            let trackerCategory = TrackerCategory(header: category.header, trackers: trackers)
+            return trackerCategory
+        }
+        visibleTrackers = []
+        visibleTrackers = dateFilter
+        collectionView.reloadData()
     }
     
     @objc
@@ -225,6 +234,9 @@ class TrackersViewController: UIViewController, AddTrackerDelegate, TracerCellDe
             
         }
        showCollectionView(visible: true)
+        visibleTrackers = TrackersController.shared.categories
+        searchBar.text = nil
+        searchBar.resignFirstResponder()
         collectionView.reloadData()
     }
     
@@ -244,16 +256,16 @@ class TrackersViewController: UIViewController, AddTrackerDelegate, TracerCellDe
     
 extension TrackersViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return TrackersController.shared.categories[section].trackers.count
+        return visibleTrackers[section].trackers.count
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return TrackersController.shared.categories.count
+        return visibleTrackers.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? TrackerCall
-        let category = TrackersController.shared.categories[indexPath.section]
+        let category = visibleTrackers[indexPath.section]
         let done = TrackersController.shared.isTrackerDone(date: currentDate, trackerID: category.trackers[indexPath.row].id)
         cell?.setupCell(tracker: category.trackers[indexPath.row], daysCount: 5, done: done)
         cell?.delegate = self
@@ -272,7 +284,7 @@ extension TrackersViewController: UICollectionViewDataSource {
         }
         
         let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: id, for: indexPath) as! SupplementaryView
-        view.titleLabel.text = TrackersController.shared.categories[indexPath.section].header
+        view.titleLabel.text = visibleTrackers[indexPath.section].header
         return view
     }
     }
@@ -294,6 +306,37 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
                                                              withHorizontalFittingPriority: .required,
                                                              verticalFittingPriority: .fittingSizeLevel)           
         }
+}
+
+extension TrackersViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String){
+        // 1. взять все трекеры (для выбранной даты)
+        
+        let categories = TrackersController.shared.categories
+        
+        // 2. выполнить поиск трекеров по имени с помощью searchText
+        
+        if searchText.isEmpty{
+            visibleTrackers = categories
+            collectionView.reloadData()
+            return
+        }
+            let filteredCategories = categories.map { category in
+                let trackers = category.trackers.filter { tracker in
+                    tracker.name == searchText
+                }
+                let trackerCategory = TrackerCategory(header: category.header, trackers: trackers)
+                return trackerCategory
+            }
+            
+            // 3. Очистить список видимых трекеров
+            
+            visibleTrackers = []
+            // 4. Обновить список видимых трекеров visibleTrackers
+            
+            visibleTrackers = filteredCategories
+            collectionView.reloadData()
+    }
 }
 
 
