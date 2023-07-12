@@ -32,7 +32,7 @@ class TrackersViewController: UIViewController, AddTrackerDelegate, TracerCellDe
         }
         self.view.backgroundColor = UIColor.white
         
-        searchBar.delegate = self
+        searchBar.searchTextField.delegate = self
         updateVisibleTrackers()
     }
     
@@ -165,7 +165,6 @@ class TrackersViewController: UIViewController, AddTrackerDelegate, TracerCellDe
         searchBar.placeholder = "Поиск"
         searchBar.searchBarStyle = .minimal
 
-     
         NSLayoutConstraint.activate([
 
             searchBar.heightAnchor.constraint(equalToConstant: 36),
@@ -317,8 +316,8 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
         }
 }
 
-extension TrackersViewController: UISearchBarDelegate {
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String){
+extension TrackersViewController: UITextFieldDelegate {
+    func textFieldDidChangeSelection(_ textField: UITextField) {
         updateVisibleTrackers()
     }
 }

@@ -1,44 +1,38 @@
 //
-//  NewHabitViewController.swift
+//  IrregularEventViewController.swift
 //  Tracker
 //
-//  Created by Алиса Долматова on 11.06.2023.
+//  Created by Алиса Долматова on 04.07.2023.
 //
 
 import Foundation
 import UIKit
 
-protocol NewHabitDelegate {
-    func addTracker(tracker: Tracker, category: String)
-}
-
-class NewHabitViewController: UIViewController, AddCategoryDelegate, AddNewTimeTableDelegate {
- 
+class IrregularEventViewController: UIViewController, AddCategoryDelegate{
+    
     var uiHeaderLable: UILabel!
     var uiTextField: UITextField!
+    let uiButtonCreate = UIButton()
+    var trackerName:String? = nil
+    var selectedCategory:String?
     var tableView: UITableView!
     let idCell = "cell"
-    let callTitles = ["Категория","Расписание"]
-    var trackerName:String? = nil
-    let uiButtonCreate = UIButton()
-    var trackersVCdelegate: NewHabitDelegate? = nil
-    var selectedCategory:String?
+    let callTitles = "Категория"
     var selectedDay:[Tracker.Ordinary] = []
-    
+    var trackersVCdelegate: NewHabitDelegate? = nil
     
     override func viewDidLoad() {
         setupViews()
     }
     
     private func setupViews() {
-        
         view.backgroundColor = .white
         
         uiHeaderLable = UILabel()
         
         view.addSubview(uiHeaderLable)
         uiHeaderLable.translatesAutoresizingMaskIntoConstraints = false
-        uiHeaderLable.text = "Новая привычка"
+        uiHeaderLable.text = "Новое нерегулярное событие"
         uiHeaderLable.textColor = UIColor.black
         uiHeaderLable.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         uiHeaderLable.textAlignment = .center
@@ -79,7 +73,7 @@ class NewHabitViewController: UIViewController, AddCategoryDelegate, AddNewTimeT
             tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             tableView.topAnchor.constraint(equalTo: uiTextField.bottomAnchor, constant: 24),
             tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
-            tableView.heightAnchor.constraint(equalToConstant: 150)
+            tableView.heightAnchor.constraint(equalToConstant: 75)
         ])
         
         let stack = UIStackView()
@@ -130,6 +124,7 @@ class NewHabitViewController: UIViewController, AddCategoryDelegate, AddNewTimeT
         stack.addArrangedSubview (uiButtonCancel)
         stack.addArrangedSubview (uiButtonCreate)
         stack.axis = .horizontal
+        
     }
     
     @objc
@@ -165,50 +160,32 @@ class NewHabitViewController: UIViewController, AddCategoryDelegate, AddNewTimeT
         tableView.reloadData()
     }
     
-    func addDayOfWeek(days:[Tracker.Ordinary]) {
-        selectedDay = days
-        tableView.reloadData()
-    }
-    
-    
-} //конец класса NewHabitViewController
+} //конец класса IrregularEventViewController
 
 
-extension NewHabitViewController: UITableViewDelegate {
+extension IrregularEventViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        
-        switch (indexPath.row) {
-        case 0:
             let categoriesVC = CategoriesViewController()
             categoriesVC.delegate = self
             present(categoriesVC, animated: true)
-        case 1:
-            let timeTableVC = TimeTableViewController()
-            timeTableVC.delegate = self
-            timeTableVC.setupSelectedDays(selectedDay: selectedDay)
-            present(timeTableVC, animated: true)
-        default:
-            break
-        }
-        
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        75
+       75
     }
    
 }
 
-extension NewHabitViewController: UITableViewDataSource{
+extension IrregularEventViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        2
+        1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: idCell)
-        let title = callTitles[indexPath.row]
+        let title = callTitles
         cell.textLabel?.text = title
         cell.backgroundColor = .clear
         cell.accessoryType = .disclosureIndicator
@@ -216,19 +193,8 @@ extension NewHabitViewController: UITableViewDataSource{
         if indexPath.row == 0 {
             cell.detailTextLabel?.text = selectedCategory
             cell.detailTextLabel?.textColor = UIColor(named: "ColorGray")
-        } else {
-            if !selectedDay.isEmpty {
-                var text =  ""
-                selectedDay.forEach { day in
-                    text += "\(day.shortText()), "
-                }
-                text = String(text.dropLast(2))
-                cell.detailTextLabel?.text = text
-                cell.detailTextLabel?.textColor = UIColor(named: "ColorGray")
-            }
         }
     
        return cell
-        
     }
 }

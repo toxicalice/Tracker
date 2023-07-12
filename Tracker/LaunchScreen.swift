@@ -39,9 +39,5 @@ class LaunchScreen: UIViewController  {
             uiImage.centerXAnchor.constraint(equalTo: view.centerXAnchor)
             
         ])
-        
-        
-        
-        
     }
 }

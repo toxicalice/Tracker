@@ -86,7 +86,6 @@ class AddTrackerViewController: UIViewController, NewHabitDelegate {
     
     @objc
     private func didTapButtonHabit() {
-        
         let addTrackerViewController = NewHabitViewController()
         addTrackerViewController.trackersVCdelegate = self
         present(addTrackerViewController, animated: true)
@@ -99,7 +98,8 @@ class AddTrackerViewController: UIViewController, NewHabitDelegate {
     
     @objc
     private func didTapButtonIrregularEvent() {
-        //TODO нужно дописать логику нажатия
-
+        let IrregularEventViewController = IrregularEventViewController()
+        IrregularEventViewController.trackersVCdelegate = self
+        present(IrregularEventViewController, animated: true)
     }
 }

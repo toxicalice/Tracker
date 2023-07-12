@@ -59,14 +59,15 @@ class TrackerCall:UICollectionViewCell{
         uiLableDay.text = "\(String(daysCount)) дней" //TODO поглить как менять дней на день и тд
         uiLableEmoji.text = tracker.emoji
         uiLableTitle.text = tracker.name
-        uiPlusButton.tintColor = tracker.color
+        uiPlusButton.backgroundColor = tracker.color
+        uiPlusButton.tintColor = .white
         viewCell.backgroundColor = tracker.color
         self.activeButton = activeButton
         self.done = done
         if done {
-            uiPlusButton.setImage(UIImage(named: "circleDoneButton"), for: UIControl.State.normal)
+            uiPlusButton.setImage(UIImage(systemName: "checkmark"), for: UIControl.State.normal)
         } else {
-            uiPlusButton.setImage(UIImage(named: "circlePlusButton"), for: UIControl.State.normal)
+            uiPlusButton.setImage(UIImage(systemName: "plus"), for: UIControl.State.normal)
         }
         self.tracker = tracker
     }
@@ -103,14 +104,15 @@ class TrackerCall:UICollectionViewCell{
         
         cellFooterContainer.addSubview(uiPlusButton)
         uiPlusButton.translatesAutoresizingMaskIntoConstraints = false
+        uiPlusButton.layer.cornerRadius = 17
+        
         
         NSLayoutConstraint.activate([
             uiPlusButton.widthAnchor.constraint(equalToConstant: 34),
             uiPlusButton.heightAnchor.constraint(equalToConstant: 34),
             uiPlusButton.trailingAnchor.constraint(equalTo: cellFooterContainer.trailingAnchor, constant: -12),
             uiPlusButton.leadingAnchor.constraint(equalTo: uiLableDay.trailingAnchor, constant: 8),
-            uiPlusButton.topAnchor.constraint(equalTo: cellFooterContainer.bottomAnchor, constant: 8),
-            uiPlusButton.bottomAnchor.constraint(equalTo: cellFooterContainer.bottomAnchor, constant: -16)
+            uiPlusButton.topAnchor.constraint(equalTo: cellFooterContainer.topAnchor, constant: 8),
         ])
         
     }
@@ -159,16 +161,12 @@ private func setupViewCellContent() {
         
         done = !done
         if done {
-            uiPlusButton.setImage(UIImage(named: "circleDoneButton"), for: UIControl.State.normal)
             guard let tracker = self.tracker else {return}
             delegate?.addDayForCounter(tracker: tracker)
         } else {
-            uiPlusButton.setImage(UIImage(named: "circlePlusButton"), for: UIControl.State.normal)
             guard let tracker = self.tracker else {return}
             delegate?.removeDayForCounter(tracker: tracker)
         }
-        
-     // только чет галочку не видно
         
     }
         
