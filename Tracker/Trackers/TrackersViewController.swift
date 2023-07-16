@@ -9,7 +9,7 @@ import Foundation
 import WebKit
 import UIKit
 
-class TrackersViewController: UIViewController, AddTrackerDelegate, TracerCellDelegate{
+class TrackersViewController: UIViewController, AddTrackerDelegate, TrakerCellDelegate{
    
     var labelName:UILabel!
     var lableData:UIDatePicker!
@@ -183,17 +183,22 @@ class TrackersViewController: UIViewController, AddTrackerDelegate, TracerCellDe
     }
     
     private func updateVisibleTrackers() {
-        
         let categories = TrackersController.shared.categories
         let dateFilter = categories.map { category in
             let trackers = category.trackers.filter { tracker in
-                let day = Tracker.Ordinary.getByIndex(index: currentDate.dayNumberOfWeek())
-                let hasDay = tracker.ordinary.contains { ordinary in
-                    ordinary == day
+                if !tracker.ordinary.isEmpty {
+                    let day = Tracker.Ordinary.getByIndex(index: currentDate.dayNumberOfWeek())
+                    let hasDay = tracker.ordinary.contains { ordinary in
+                        ordinary == day
+                    }
+                    let hasName = searchBar.text?.isEmpty != false || tracker.name.lowercased().contains(searchBar.text?.lowercased() ?? "")
+                    return hasDay && hasName
+                } else {
+                    let hasDay = true
+                    let hasName = searchBar.text?.isEmpty != false || tracker.name.lowercased().contains(searchBar.text?.lowercased() ?? "")
+                    return hasDay && hasName
                 }
-                let hasName = searchBar.text?.isEmpty != false || tracker.name.lowercased().contains(searchBar.text?.lowercased() ?? "")
-                
-                return hasDay && hasName
+
             }
             let trackerCategory = TrackerCategory(header: category.header, trackers: trackers)
             return trackerCategory

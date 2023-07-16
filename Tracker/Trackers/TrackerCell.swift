@@ -9,7 +9,7 @@ import Foundation
 import WebKit
 import UIKit
 
-protocol TracerCellDelegate {
+protocol TrakerCellDelegate {
     func addDayForCounter(tracker: Tracker)
     func removeDayForCounter (tracker: Tracker)
 }
@@ -23,7 +23,7 @@ class TrackerCall:UICollectionViewCell{
     var uiLableDay: UILabel!
     var uiLableEmoji: UILabel!
     var uiPlusButton: UIButton!
-    var delegate: TracerCellDelegate?
+    var delegate: TrakerCellDelegate?
     var done: Bool = false
     var tracker:Tracker?
     var activeButton: Bool = true
@@ -56,18 +56,17 @@ class TrackerCall:UICollectionViewCell{
     
     
     func setupCell(tracker: Tracker, daysCount: Int, done:Bool, activeButton: Bool) {
-        uiLableDay.text = "\(String(daysCount)) дней" //TODO поглить как менять дней на день и тд
+        uiLableDay.text = "\(String(daysCount)) \(daysCount.days())"
         uiLableEmoji.text = tracker.emoji
         uiLableTitle.text = tracker.name
-        uiPlusButton.backgroundColor = tracker.color
-        uiPlusButton.tintColor = .white
+        uiPlusButton.tintColor = tracker.color
         viewCell.backgroundColor = tracker.color
         self.activeButton = activeButton
         self.done = done
         if done {
-            uiPlusButton.setImage(UIImage(systemName: "checkmark"), for: UIControl.State.normal)
+            uiPlusButton.setImage(UIImage(named: "circleDoneButton"), for: UIControl.State.normal)
         } else {
-            uiPlusButton.setImage(UIImage(systemName: "plus"), for: UIControl.State.normal)
+            uiPlusButton.setImage(UIImage(named: "circlePlusButton"), for: UIControl.State.normal)
         }
         self.tracker = tracker
     }
