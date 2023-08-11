@@ -12,8 +12,8 @@ protocol NewHabitDelegate {
     func addTracker(tracker: Tracker, category: String)
 }
 
-class NewHabitViewController: UIViewController, AddCategoryDelegate, AddNewTimeTableDelegate {
- 
+class NewHabitViewController: UIViewController, AddCategoryDelegate, AddNewTimeTableDelegate, EmojiCellDelegate, ColorCellDelegate {
+   
     var uiHeaderLable: UILabel!
     var uiTextField: UITextField!
     var tableView: UITableView!
@@ -22,12 +22,15 @@ class NewHabitViewController: UIViewController, AddCategoryDelegate, AddNewTimeT
     var trackerName:String? = nil
     let uiButtonCreate = UIButton()
     var trackersVCdelegate: NewHabitDelegate? = nil
-    var selectedCategory:String?
-    var selectedDay:[Tracker.Ordinary] = []
+    var selectedCategory: String?
+    var selectedDay: [Tracker.Ordinary] = []
+    var selectedEmoji: String?
+    var selectedColor: UIColor?
     
     
     override func viewDidLoad() {
         setupViews()
+        tableView.register(SupplementaryTableView.self, forCellReuseIdentifier: "customTableCell")
     }
     
     private func setupViews() {
@@ -52,7 +55,7 @@ class NewHabitViewController: UIViewController, AddCategoryDelegate, AddNewTimeT
         uiTextField = PaddedTextFeild()
         view.addSubview(uiTextField)
         uiTextField.translatesAutoresizingMaskIntoConstraints = false
-        uiTextField.placeholder = "Введите название трекера"
+        uiTextField.placeholder = "Введите название категории"
         uiTextField.layer.cornerRadius = 16
         uiTextField.backgroundColor = UIColor(named: "ColorBackground")
         uiTextField.addTarget(self, action: #selector(self.textChanged(_:)), for: .editingChanged)
@@ -79,7 +82,7 @@ class NewHabitViewController: UIViewController, AddCategoryDelegate, AddNewTimeT
             tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             tableView.topAnchor.constraint(equalTo: uiTextField.bottomAnchor, constant: 24),
             tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
-            tableView.heightAnchor.constraint(equalToConstant: 150)
+            tableView.heightAnchor.constraint(equalToConstant: 400)
         ])
         
         let stack = UIStackView()
@@ -142,9 +145,7 @@ class NewHabitViewController: UIViewController, AddCategoryDelegate, AddNewTimeT
         } else {
             uiButtonCreate.isEnabled = false
             uiButtonCreate.backgroundColor = UIColor(named: "ColorGray")
-
         }
-        
     }
     
     @objc
@@ -156,7 +157,9 @@ class NewHabitViewController: UIViewController, AddCategoryDelegate, AddNewTimeT
     private func didTapButtonCreate() {
         guard let selectedCategory = selectedCategory else {return}
         guard let trackerName = trackerName else {return}
-        trackersVCdelegate?.addTracker(tracker: Tracker(id: UUID(), name: trackerName, color: .brown, emoji: "😀", ordinary: selectedDay), category: selectedCategory)
+        guard let selectedEmoji = selectedEmoji else {return}
+        guard let selectedColor = selectedColor else {return}
+        trackersVCdelegate?.addTracker(tracker: Tracker(id: UUID(), name: trackerName, color: selectedColor, emoji: selectedEmoji, ordinary: selectedDay), category: selectedCategory)
         dismiss(animated: true)
     }
     
@@ -170,6 +173,17 @@ class NewHabitViewController: UIViewController, AddCategoryDelegate, AddNewTimeT
         tableView.reloadData()
     }
     
+    func addEmoji(emoji: String) {
+        selectedEmoji = emoji
+        tableView.reloadData()
+    }
+    
+    func addColor(color: UIColor) {
+        selectedColor = color
+        tableView.reloadData()
+    }
+    
+   
     
 } //конец класса NewHabitViewController
 
@@ -177,7 +191,9 @@ class NewHabitViewController: UIViewController, AddCategoryDelegate, AddNewTimeT
 extension NewHabitViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        
+        switch (indexPath.section) {
+            
+        case 0:
         switch (indexPath.row) {
         case 0:
             let categoriesVC = CategoriesViewController()
@@ -191,44 +207,95 @@ extension NewHabitViewController: UITableViewDelegate {
         default:
             break
         }
-        
+        default:
+            break
+        }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        75
+        switch indexPath.section {
+        case 0: return 75
+        default: return 200
+        }
     }
    
 }
 
 extension NewHabitViewController: UITableViewDataSource{
+    func numberOfSections(in tableView: UITableView) -> Int {
+        3
+    }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        2
+        switch section {
+        case 0: return 2
+        case 1: return 1
+        case 2: return 1
+        default: return 0
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: idCell)
-        let title = callTitles[indexPath.row]
-        cell.textLabel?.text = title
-        cell.backgroundColor = .clear
-        cell.accessoryType = .disclosureIndicator
-        
-        if indexPath.row == 0 {
-            cell.detailTextLabel?.text = selectedCategory
-            cell.detailTextLabel?.textColor = UIColor(named: "ColorGray")
-        } else {
-            if !selectedDay.isEmpty {
-                var text =  ""
-                selectedDay.forEach { day in
-                    text += "\(day.shortText()), "
-                }
-                text = String(text.dropLast(2))
-                cell.detailTextLabel?.text = text
+        switch indexPath.section {
+        case 0:
+            let cell = UITableViewCell(style: .subtitle, reuseIdentifier: idCell)
+            let title = callTitles[indexPath.row]
+            cell.textLabel?.text = title
+            cell.backgroundColor = .clear
+            cell.accessoryType = .disclosureIndicator
+            
+            if indexPath.row == 0 {
+                cell.detailTextLabel?.text = selectedCategory
                 cell.detailTextLabel?.textColor = UIColor(named: "ColorGray")
+            } else {
+                if !selectedDay.isEmpty {
+                    var text =  ""
+                    selectedDay.forEach { day in
+                        text += "\(day.shortText()), "
+                    }
+                    text = String(text.dropLast(2))
+                    cell.detailTextLabel?.text = text
+                    cell.detailTextLabel?.textColor = UIColor(named: "ColorGray")
+                }
             }
+            
+            return cell
+        case 1:
+            let cell = EmojiCellViewController()
+                cell.delegat = self
+                cell.selectedEmoji = selectedEmoji
+                cell.prepareForReuse()
+                cell.setup()
+                return cell
+        default:
+                let cell = ColorCellViewController()
+                cell.delegat = self
+                cell.selectedColor = selectedColor
+                cell.prepareForReuse()
+                cell.setup()
+                return cell 
+          
         }
-    
-       return cell
-        
     }
-}
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = UIView()
+        let headerCell = tableView.dequeueReusableCell(withIdentifier: "customTableCell") as! SupplementaryTableView
+        headerView.addSubview(headerCell)
+    
+        switch section {
+        case 0:
+            return nil
+            
+        case 1:
+            headerCell.titleLabel.text = "Emoji"
+            return headerView
+            
+        case 2:
+            headerCell.titleLabel.text = "Цвет"
+            return headerView
+            
+        default:
+            return headerView
+        }
+    }
+} // конец класса NewHabitViewController
