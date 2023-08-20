@@ -68,16 +68,16 @@ class NewHabitViewController: UIViewController, AddCategoryDelegate, AddNewTimeT
         ])
         
         
-        tableView = UITableView()
+        tableView = UITableView(frame: CGRect(), style: .grouped)
         view.addSubview(tableView)
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: idCell)
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.backgroundColor = UIColor(named: "ColorBackground")
-        tableView.layer.cornerRadius = 16
-        
-        
+        tableView.separatorStyle = .none
+        tableView.backgroundColor = .white
+    
+    
         NSLayoutConstraint.activate([
             tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             tableView.topAnchor.constraint(equalTo: uiTextField.bottomAnchor, constant: 24),
@@ -242,10 +242,25 @@ extension NewHabitViewController: UITableViewDataSource{
             cell.textLabel?.text = title
             cell.backgroundColor = .clear
             cell.accessoryType = .disclosureIndicator
-            
+            cell.backgroundColor = UIColor(named: "ColorBackground")
+           
             if indexPath.row == 0 {
                 cell.detailTextLabel?.text = selectedCategory
                 cell.detailTextLabel?.textColor = UIColor(named: "ColorGray")
+                cell.layer.masksToBounds = true
+                cell.layer.cornerRadius = 16
+                cell.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+                let viewSeparator = UIView()
+                cell.contentView.addSubview(viewSeparator)
+                viewSeparator.translatesAutoresizingMaskIntoConstraints = false
+                viewSeparator.backgroundColor = .gray
+                
+                NSLayoutConstraint.activate([
+                    viewSeparator.leadingAnchor.constraint(equalTo: cell.safeAreaLayoutGuide.leadingAnchor, constant: 0),
+                    viewSeparator.topAnchor.constraint(equalTo: cell.bottomAnchor, constant: 0),
+                    viewSeparator.trailingAnchor.constraint(equalTo: cell.safeAreaLayoutGuide.trailingAnchor, constant: 0),
+                    viewSeparator.heightAnchor.constraint(equalToConstant: 1)
+                ])
             } else {
                 if !selectedDay.isEmpty {
                     var text =  ""
@@ -255,6 +270,10 @@ extension NewHabitViewController: UITableViewDataSource{
                     text = String(text.dropLast(2))
                     cell.detailTextLabel?.text = text
                     cell.detailTextLabel?.textColor = UIColor(named: "ColorGray")
+                    cell.layer.masksToBounds = true
+                    cell.layer.cornerRadius = 16
+
+                    cell.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
                 }
             }
             
