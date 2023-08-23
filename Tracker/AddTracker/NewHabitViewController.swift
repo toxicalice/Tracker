@@ -279,14 +279,14 @@ extension NewHabitViewController: UITableViewDataSource{
             
             return cell
         case 1:
-            let cell = EmojiCellViewController()
+            let cell = EmojiCell()
                 cell.delegat = self
                 cell.selectedEmoji = selectedEmoji
                 cell.prepareForReuse()
                 cell.setup()
                 return cell
         default:
-                let cell = ColorCellViewController()
+                let cell = ColorCell()
                 cell.delegat = self
                 cell.selectedColor = selectedColor
                 cell.prepareForReuse()

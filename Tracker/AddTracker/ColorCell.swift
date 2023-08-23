@@ -10,7 +10,7 @@ protocol ColorCellDelegate {
     func addColor (color: UIColor)
 }
 
-class ColorCellViewController: UITableViewCell {
+class ColorCell: UITableViewCell {
     
     var colors = [
         UIColor(hex: "#FD4C49"),

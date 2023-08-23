@@ -222,6 +222,9 @@ class TrackersViewController: UIViewController, AddTrackerDelegate, TrakerCellDe
     }
     
     func addTracker(tracker: Tracker, category: String) {
+//        let store = TrackerStore()
+//        store.addTracker(tracker: tracker)
+        
         
         dismiss(animated: true)
         let oldCat = TrackersController.shared.categories.first { cat in

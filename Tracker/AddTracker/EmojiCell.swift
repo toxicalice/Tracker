@@ -12,7 +12,7 @@ protocol EmojiCellDelegate {
     func addEmoji (emoji: String)
 }
 
-class EmojiCellViewController: UITableViewCell {
+class EmojiCell: UITableViewCell {
     
     var emoji = ["🙂","😻","🌺","😇","😡","🥶","🤔","🥦","🏓","🥇","🎸","🐶","❤️","😱","🙌","🍔","🏝", "😪"]
     
