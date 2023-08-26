@@ -27,6 +27,7 @@
 		AAAD12E02A923AB4004CC6A5 /* TrackerStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAD12DF2A923AB4004CC6A5 /* TrackerStore.swift */; };
 		AAAD12E22A967FE4004CC6A5 /* TrackerCategoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAD12E12A967FE4004CC6A5 /* TrackerCategoryStore.swift */; };
 		AAAD12E42A967FF1004CC6A5 /* TrackerRecordStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAD12E32A967FF1004CC6A5 /* TrackerRecordStore.swift */; };
+		AAAD12E62A9A6474004CC6A5 /* DataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAD12E52A9A6474004CC6A5 /* DataProvider.swift */; };
 		AAE80FD62A213E5D00A35195 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE80FD52A213E5D00A35195 /* AppDelegate.swift */; };
 		AAE80FD82A213E5D00A35195 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE80FD72A213E5D00A35195 /* SceneDelegate.swift */; };
 		AAE80FDA2A213E5D00A35195 /* TabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE80FD92A213E5D00A35195 /* TabViewController.swift */; };
@@ -77,6 +78,7 @@
 		AAAD12DF2A923AB4004CC6A5 /* TrackerStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerStore.swift; sourceTree = "<group>"; };
 		AAAD12E12A967FE4004CC6A5 /* TrackerCategoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCategoryStore.swift; sourceTree = "<group>"; };
 		AAAD12E32A967FF1004CC6A5 /* TrackerRecordStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerRecordStore.swift; sourceTree = "<group>"; };
+		AAAD12E52A9A6474004CC6A5 /* DataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataProvider.swift; sourceTree = "<group>"; };
 		AAE80FD22A213E5D00A35195 /* Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAE80FD52A213E5D00A35195 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AAE80FD72A213E5D00A35195 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -217,6 +219,7 @@
 				AAAD12DF2A923AB4004CC6A5 /* TrackerStore.swift */,
 				AAAD12E12A967FE4004CC6A5 /* TrackerCategoryStore.swift */,
 				AAAD12E32A967FF1004CC6A5 /* TrackerRecordStore.swift */,
+				AAAD12E52A9A6474004CC6A5 /* DataProvider.swift */,
 			);
 			path = Tracker;
 			sourceTree = "<group>";
@@ -373,6 +376,7 @@
 				AA873EC02A545A78005DF9EE /* IrregularEventViewController.swift in Sources */,
 				AA9131DB2A37998B00CD0A32 /* TrackerModel.swift in Sources */,
 				AAAD12E42A967FF1004CC6A5 /* TrackerRecordStore.swift in Sources */,
+				AAAD12E62A9A6474004CC6A5 /* DataProvider.swift in Sources */,
 				AAAD12D92A7FECB1004CC6A5 /* ColorCell.swift in Sources */,
 				AA9131D92A36650900CD0A32 /* PaddingTextField.swift in Sources */,
 				AA9131D52A36501700CD0A32 /* NewHabitViewController.swift in Sources */,

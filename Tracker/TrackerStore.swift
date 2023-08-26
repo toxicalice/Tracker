@@ -22,7 +22,7 @@ class TrackerStore {
         
     }
     
-    func addTracker(tracker: Tracker) {
+    func addTracker(tracker: Tracker, category: TrackerCategoryCoreData) {
        let trackerCoreData = TrackerCoreData(context: context)
         trackerCoreData.id = tracker.id
         trackerCoreData.name = tracker.name
@@ -31,6 +31,7 @@ class TrackerStore {
         trackerCoreData.ordinary = tracker.ordinary.map({ dayOfWeek in
             return dayOfWeek.rawValue
         })
+        trackerCoreData.category = category
        try! context.save()
     }
     

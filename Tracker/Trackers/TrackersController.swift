@@ -9,30 +9,53 @@ import Foundation
 
 class TrackersController {
    static let shared: TrackersController = TrackersController()
-    var categories: [TrackerCategory] = [
-        TrackerCategory(header: "cat1", trackers: [
-            Tracker(id: UUID(), name: "Cat", color: .blue, emoji: "📛", ordinary: [.friday, .monday]),
-            Tracker(id: UUID(), name: "dog", color: .red, emoji: "📛", ordinary: [.thursday, .saturday]),
-            Tracker(id: UUID(), name: "track", color: .blue, emoji: "📛", ordinary: [.monday]),
-        ]),
-        
-        TrackerCategory(header: "cat2", trackers: [
-            Tracker(id: UUID(), name: "track87", color: .green, emoji: "📛", ordinary: [.tuesday])
-        ])
-    ]
     
-    var completedTrackers: Set<TrackerRecord> = []
+    private let trackerStore = TrackerStore()
+    private let trackerCategoryStore = TrackerCategoryStore()
+    private let trackerRecordStore = TrackerRecordStore()
     
     func isTrackerDone(date:Date, trackerID:UUID) -> Bool {
-         completedTrackers.first { record in
+        trackerRecordStore.getTracerRecord(tracerID: trackerID).first { record in
             record.trackerId == trackerID && record.date == date
         } != nil
     }
     
     func completedTrackersCount(id: UUID) -> Int {
-        let filterID = completedTrackers.filter { tracerRecord in
+        let filterID = trackerRecordStore.getTracerRecord(tracerID: id).filter { tracerRecord in
             tracerRecord.trackerId == id
         }
      return filterID.count
     }
-}
+    
+    
+    func addTracker(tracker: Tracker, category: TrackerCategory) {
+        let category = trackerCategoryStore.getCategoryCoreData(trackers: tracker)
+        guard let category = category else {return}
+        trackerStore.addTracker(tracker: tracker, category: category)
+    }
+    
+    func getTracker () -> [Tracker] {
+        trackerStore.getTracker()
+    }
+    
+    func addCategory(category: TrackerCategory) {
+        trackerCategoryStore.addCategory(category: category)
+    }
+    
+    func getCategory () -> [TrackerCategory] {
+        trackerCategoryStore.getCategory(trackers: getTracker())
+    }
+    
+    func updateCategory (category: TrackerCategory) {
+        trackerCategoryStore.updateCategory(category: category)
+    }
+    
+    func addTrackerRecord (record: TrackerRecord ) {
+        trackerRecordStore.addTrackerRecord(record: record)
+    }
+    
+    func deleteTracerRecord (tracerID: UUID) {
+        trackerRecordStore.deleteTracerRecord(tracerID: tracerID)
+    }
+    
+} //конец класса TrackersController
