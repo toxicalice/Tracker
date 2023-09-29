@@ -9,7 +9,7 @@ import Foundation
 import WebKit
 import UIKit
 
-class TrackersViewController: UIViewController, AddTrackerDelegate, TracerCellDelegate{
+class TrackersViewController: UIViewController, AddTrackerDelegate, TrakerCellDelegate{
    
     var labelName:UILabel!
     var lableData:UIDatePicker!
@@ -25,14 +25,14 @@ class TrackersViewController: UIViewController, AddTrackerDelegate, TracerCellDe
         setupViews()
         setupEmptyPlaceholder()
         setupCollectionView()
-        if TrackersController.shared.categories.isEmpty {
+        if TrackersController.shared.getCategory().isEmpty {
             showCollectionView(visible: false)
         } else {
             showPlaceholder(visible: false)
         }
         self.view.backgroundColor = UIColor.white
         
-        searchBar.delegate = self
+        searchBar.searchTextField.delegate = self
         updateVisibleTrackers()
     }
     
@@ -165,7 +165,6 @@ class TrackersViewController: UIViewController, AddTrackerDelegate, TracerCellDe
         searchBar.placeholder = "Поиск"
         searchBar.searchBarStyle = .minimal
 
-     
         NSLayoutConstraint.activate([
 
             searchBar.heightAnchor.constraint(equalToConstant: 36),
@@ -184,17 +183,22 @@ class TrackersViewController: UIViewController, AddTrackerDelegate, TracerCellDe
     }
     
     private func updateVisibleTrackers() {
-        
-        let categories = TrackersController.shared.categories
+        let categories = TrackersController.shared.getCategory()
         let dateFilter = categories.map { category in
             let trackers = category.trackers.filter { tracker in
-                let day = Tracker.Ordinary.getByIndex(index: currentDate.dayNumberOfWeek())
-                let hasDay = tracker.ordinary.contains { ordinary in
-                    ordinary == day
+                if !tracker.ordinary.isEmpty {
+                    let day = Tracker.Ordinary.getByIndex(index: currentDate.dayNumberOfWeek())
+                    let hasDay = tracker.ordinary.contains { ordinary in
+                        ordinary == day
+                    }
+                    let hasName = searchBar.text?.isEmpty != false || tracker.name.lowercased().contains(searchBar.text?.lowercased() ?? "")
+                    return hasDay && hasName
+                } else {
+                    let hasDay = true
+                    let hasName = searchBar.text?.isEmpty != false || tracker.name.lowercased().contains(searchBar.text?.lowercased() ?? "")
+                    return hasDay && hasName
                 }
-                let hasName = searchBar.text?.isEmpty != false || tracker.name.lowercased().contains(searchBar.text?.lowercased() ?? "")
-                
-                return hasDay && hasName
+
             }
             let trackerCategory = TrackerCategory(header: category.header, trackers: trackers)
             return trackerCategory
@@ -218,28 +222,29 @@ class TrackersViewController: UIViewController, AddTrackerDelegate, TracerCellDe
     }
     
     func addTracker(tracker: Tracker, category: String) {
-        
+
         dismiss(animated: true)
-        let oldCat = TrackersController.shared.categories.first { cat in
+        let oldCat = TrackersController.shared.getCategory().first { cat in
             cat.header == category
         }
         
-       if let oldCat = oldCat
-        {
+       if let oldCat = oldCat {
            var newTrackers = oldCat.trackers
            newTrackers.append(tracker)
            
            let newCat = TrackerCategory(header: oldCat.header, trackers: newTrackers)
-           let index = TrackersController.shared.categories.firstIndex { cat in
+           let index = TrackersController.shared.getCategory().firstIndex { cat in
                cat.header == category
            }
            guard let index = index else {return}
-           TrackersController.shared.categories.remove(at: index)
-           TrackersController.shared.categories.insert(newCat, at: index)
+           TrackersController.shared.updateCategory(category: newCat)
+           TrackersController.shared.addTracker(tracker: tracker, category: newCat)
        } else {
-            TrackersController.shared.categories.append(TrackerCategory(header: category, trackers: [tracker]))
-            
+           let newCat = TrackerCategory(header: category, trackers: [tracker])
+           TrackersController.shared.addCategory(category: newCat)
+           TrackersController.shared.addTracker(tracker: tracker, category: newCat)
         }
+        
         showCollectionView(visible: true)
         searchBar.text = nil
         searchBar.resignFirstResponder()
@@ -249,13 +254,12 @@ class TrackersViewController: UIViewController, AddTrackerDelegate, TracerCellDe
     func addDayForCounter(tracker: Tracker) {
         
         let tracerRecord = TrackerRecord(trackerId: tracker.id, date: currentDate)
-        TrackersController.shared.completedTrackers.insert(tracerRecord)
+        TrackersController.shared.addTrackerRecord(record: tracerRecord)
         collectionView.reloadData()
     }
     
     func removeDayForCounter(tracker: Tracker) {
-        let tracerRecord = TrackerRecord(trackerId: tracker.id, date: currentDate)
-        TrackersController.shared.completedTrackers.remove(tracerRecord)
+        TrackersController.shared.deleteTracerRecord(tracerID: tracker.id)
         collectionView.reloadData()
     }
     
@@ -317,11 +321,8 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
         }
 }
 
-extension TrackersViewController: UISearchBarDelegate {
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String){
+extension TrackersViewController: UITextFieldDelegate {
+    func textFieldDidChangeSelection(_ textField: UITextField) {
         updateVisibleTrackers()
     }
 }
-
-
-

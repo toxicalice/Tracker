@@ -21,7 +21,7 @@ class CategoriesViewController: UIViewController, AddNewCategoryViewControllerDe
     var tableView: UITableView!
     let idCell = "cell"
     var cellTitles: Array<String> {
-        TrackersController.shared.categories.map { category in
+        TrackersController.shared.getCategory().map { category in
             category.header
         }
     }
@@ -146,7 +146,7 @@ class CategoriesViewController: UIViewController, AddNewCategoryViewControllerDe
     
     func addCategory(name: String) {
         let newCat = TrackerCategory(header: name, trackers: [])
-        TrackersController.shared.categories.append(newCat)
+        TrackersController.shared.addCategory(category: newCat)
         selectedCategory = newCat.header
         if tableView == nil {
             setupTableView()
