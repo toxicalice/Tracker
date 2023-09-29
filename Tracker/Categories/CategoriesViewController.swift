@@ -20,27 +20,40 @@ class CategoriesViewController: UIViewController, AddNewCategoryViewControllerDe
     var lableEmpty: UILabel!
     var tableView: UITableView!
     let idCell = "cell"
-    var cellTitles: Array<String> {
-        TrackersController.shared.getCategory().map { category in
-            category.header
-        }
-    }
-    var selectedCategory: String?
+   
     var delegate: AddCategoryDelegate?
+    var categoriesViewModel = CategoriesViewModel()
     
     
     override func viewDidLoad() {
-        selectedCategory = cellTitles.first
         setupViews()
+        setupEmptyPlaceholder()
+        setupTableView()
+        categoriesViewModel.getCategory()
+
+        categoriesViewModel.onChangeCellTitles = { [weak self] in
+            guard let self = self else {return}
+            toggleVisibility(flag: categoriesViewModel.cellTitles.isEmpty)
+        }
         
-        if cellTitles.isEmpty {
-            setupEmptyPlaceholder()
-        } else {
-            setupTableView()
+        categoriesViewModel.onChangeSelectedCategory = { [weak self] in
+                guard let self = self else {return}
+                tableView.reloadData()
         }
     }
     
-    private func  setupEmptyPlaceholder() {
+    func toggleVisibility (flag: Bool) {
+        if flag == true {
+            uiEmptyPlaceholder.isHidden = false
+            tableView.isHidden = true
+        } else {
+            tableView.isHidden = false
+            uiEmptyPlaceholder.isHidden = true
+            tableView.reloadData()
+        }
+    }
+    
+    private func setupEmptyPlaceholder() {
         let emptyPlaceholder = UIImage(named: "EmptyPlaceholder")
         
         uiEmptyPlaceholder = UIImageView()
@@ -137,21 +150,17 @@ class CategoriesViewController: UIViewController, AddNewCategoryViewControllerDe
     
     
     @objc
-    private func didTapButtonuAddCategory() {
-        
-        let addTrackerViewController = AddNewCategoryViewController()
-        addTrackerViewController.delegate = self
-        present(addTrackerViewController, animated: true)
-    }
+    func didTapButtonuAddCategory() {
+       let addTrackerViewController = AddNewCategoryViewController()
+       addTrackerViewController.delegate = self
+       present(addTrackerViewController, animated: true)
+   }
     
     func addCategory(name: String) {
-        let newCat = TrackerCategory(header: name, trackers: [])
-        TrackersController.shared.addCategory(category: newCat)
-        selectedCategory = newCat.header
+        categoriesViewModel.addCategory(name: name)
         if tableView == nil {
             setupTableView()
         }
-        tableView.reloadData()
     }
     
 } //конец класса CategoriesViewController
@@ -160,14 +169,10 @@ class CategoriesViewController: UIViewController, AddNewCategoryViewControllerDe
 extension CategoriesViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        selectedCategory = cellTitles[indexPath.row]
+        categoriesViewModel.updateSelectedCategory(index: indexPath.row)
         tableView.reloadData()
-        delegate?.categorySelected(name: cellTitles[indexPath.row])
-        
+        delegate?.categorySelected(name: categoriesViewModel.cellTitles[indexPath.row])
         dismiss(animated: true)
-       // TODO При нажатии на кнопку «Готово» открывается экран выбора категории. Созданная категория отмечена синей галочкой;
-        //При нажатии на категорию пользователь возвращается на экран создания привычки. Выбранная категория отображается на экране создания привычки вторичным текстом под заголовком «Категория»;
-        
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -178,13 +183,13 @@ extension CategoriesViewController: UITableViewDelegate {
 
 extension CategoriesViewController: UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        cellTitles.count
+        categoriesViewModel.cellTitles.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-       let cell =  tableView.dequeueReusableCell(withIdentifier: idCell, for: indexPath)
-        let title = cellTitles[indexPath.row]
+        let cell =  tableView.dequeueReusableCell(withIdentifier: idCell, for: indexPath)
+        let title =   categoriesViewModel.cellTitles[indexPath.row]
         cell.textLabel?.text = title
         cell.backgroundColor = UIColor(named: "ColorBackground")
         
@@ -193,7 +198,7 @@ extension CategoriesViewController: UITableViewDataSource{
             cell.layer.masksToBounds = true
             cell.layer.cornerRadius = 16
             cell.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-        case cellTitles.count - 1:
+        case categoriesViewModel.cellTitles.count - 1:
             cell.layer.masksToBounds = true
             cell.layer.cornerRadius = 16
             cell.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
@@ -201,7 +206,7 @@ extension CategoriesViewController: UITableViewDataSource{
             break
         }
         
-        if title == selectedCategory {
+        if title == categoriesViewModel.selectedCategory {
             cell.accessoryType = .checkmark
         } else {
             cell.accessoryType = .none
