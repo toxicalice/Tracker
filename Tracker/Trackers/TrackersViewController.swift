@@ -34,6 +34,7 @@ class TrackersViewController: UIViewController, AddTrackerDelegate, TrakerCellDe
         
         searchBar.searchTextField.delegate = self
         updateVisibleTrackers()
+        addTapGestureToHideKeyboard()
     }
     
     private func showCollectionView(visible: Bool) {
@@ -324,5 +325,10 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
 extension TrackersViewController: UITextFieldDelegate {
     func textFieldDidChangeSelection(_ textField: UITextField) {
         updateVisibleTrackers()
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        searchBar.resignFirstResponder()
+        return true
     }
 }
