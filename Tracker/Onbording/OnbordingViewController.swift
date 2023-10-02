@@ -77,7 +77,7 @@ class OnbordingViewController: UIViewController {
     
     @objc
     private func didTapButtonuAddCategory() {
-        switchToController(vc: TrackersViewController())
+        switchToController(vc: TabViewController())
     }
 }
 
