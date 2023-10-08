@@ -30,7 +30,7 @@ class TrackersViewController: UIViewController, AddTrackerDelegate, TrakerCellDe
         } else {
             showPlaceholder(visible: false)
         }
-        self.view.backgroundColor = UIColor.white
+        self.view.backgroundColor = UIColor(named: "White")
         
         searchBar.searchTextField.delegate = self
         updateVisibleTrackers()
@@ -89,8 +89,8 @@ class TrackersViewController: UIViewController, AddTrackerDelegate, TrakerCellDe
         
         view.addSubview(lableEmpty)
         lableEmpty.translatesAutoresizingMaskIntoConstraints = false
-        lableEmpty.text = "Что будем отслеживать?"
-        lableEmpty.textColor = UIColor.black
+        lableEmpty.text = NSLocalizedString("tracker.empty.title", comment: "Text displayed on empty state")
+        lableEmpty.textColor = UIColor(named: "Black")
         lableEmpty.font = UIFont.systemFont(ofSize: 12, weight: .medium)
         lableEmpty.textAlignment = .center
  
@@ -113,7 +113,7 @@ class TrackersViewController: UIViewController, AddTrackerDelegate, TrakerCellDe
         
         view.addSubview(uiButton)
         uiButton.translatesAutoresizingMaskIntoConstraints = false
-        uiButton.tintColor = .black
+        uiButton.tintColor = UIColor(named: "Black")
         
         NSLayoutConstraint.activate([
             uiButton.widthAnchor.constraint(equalToConstant: 42),
@@ -147,8 +147,8 @@ class TrackersViewController: UIViewController, AddTrackerDelegate, TrakerCellDe
         
         view.addSubview(labelName)
         labelName.translatesAutoresizingMaskIntoConstraints = false
-        labelName.text = "Трекеры"
-        labelName.textColor = UIColor.black
+        labelName.text = NSLocalizedString("tracker.header", comment: "")
+        labelName.textColor = UIColor(named: "Black")
         labelName.font = UIFont.systemFont(ofSize: 34, weight: .bold)
         
         NSLayoutConstraint.activate([
@@ -158,12 +158,11 @@ class TrackersViewController: UIViewController, AddTrackerDelegate, TrakerCellDe
         ])
         
         
-        
         searchBar = UISearchBar()
         
         view.addSubview(searchBar)
         searchBar.translatesAutoresizingMaskIntoConstraints = false
-        searchBar.placeholder = "Поиск"
+        searchBar.placeholder = NSLocalizedString("tracker.searchBar", comment: "")
         searchBar.searchBarStyle = .minimal
 
         NSLayoutConstraint.activate([

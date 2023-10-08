@@ -14,8 +14,8 @@ class TabViewController: UITabBarController {
         
         let trackersViewController = TrackersViewController()
         let statisticViewController = StatisticViewController()
-        trackersViewController.title = "Трекеры"
-        statisticViewController.title = "Статистика"
+        trackersViewController.title = NSLocalizedString("tabView.trackersViewController.title", comment: "")
+        statisticViewController.title = NSLocalizedString("tabView.statisticViewController.title", comment: "")
         
         self.setViewControllers([trackersViewController, statisticViewController], animated: false)
         

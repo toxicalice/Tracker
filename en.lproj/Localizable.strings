@@ -1,0 +1,55 @@
+/* 
+  Localizable.strings
+  Tracker
+
+  Created by Алиса Долматова on 03.10.2023.
+  
+*/
+"tracker.empty.title" = "What will we track?";
+"tracker.header" = "Trackers";
+"tracker.searchBar" = "Search";
+
+"tracker.Model.ordinary.monday" = "Mon";
+"tracker.Model.ordinary.tuesday" = "Tue";
+"tracker.Model.ordinary.wednesday" = "Wed";
+"tracker.Model.ordinary.thursday" = "Thu";
+"tracker.Model.ordinary.friday" = "Fri";
+"tracker.Model.ordinary.saturday" = "Sat";
+"tracker.Model.ordinary.sunday" = "Sun";
+
+"onbording.first.text" = "Track only \n what you want";
+"onbording.second.text" = "Even if it's \n not liters of water and yoga";
+
+"categories.lable.Empty" = "Habits and events can be \n grouped by meaning";
+"categories.uiHeaderLable" = "Category";
+"categories.uiButtonAddCategory" = "Add category";
+"categories.AddNew.uiHeaderLable" = "New category";
+"categories.AddNew.uiTextField" = "Enter category name";
+"categories.AddNew.uiButtonReady" = "Done";
+
+"tabView.trackersViewController.title" = "Trackers";
+"tabView.statisticViewController.title" = "Statistics";
+
+"addTracker.uiHeaderLable" = "Create tracker";
+"addTracker.uiButtonHabit" = "Habit";
+"addTracker.uiButtonIrregularEvent" = "Irregular event";
+"newHabit.uiHeaderLable" = "New habit";
+"newHabit.uiTextField" = "Enter tracker name";
+"newHabit.uiButtonCancel" = "Cancel";
+"newHabit.uiButtonCreate" = "Create";
+"newHabit.headerCell.titleLabel.emoji" = "Emoji";
+"newHabit.headerCell.titleLabel.color" = "Color";
+
+"irregularEvent.callTitles" = "Category";
+"irregularEvent.uiHeaderLable" = "New irregular event";
+"irregularEvent.uiTextField" = "Enter tracker name";
+"irregularEvent.uiButtonCancel" = "Cancel";
+"irregularEvent.uiButtonCreate" = "Create";
+
+"timeTable.uiHeaderLable" = "Schedule";
+"timeTable.uiButtonReady" = "Done";
+
+
+//NSLocalizedString("timeTable.uiButtonReady", comment: "")
+
+

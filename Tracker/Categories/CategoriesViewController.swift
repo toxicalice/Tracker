@@ -74,7 +74,7 @@ class CategoriesViewController: UIViewController, AddNewCategoryViewControllerDe
         
         view.addSubview(lableEmpty)
         lableEmpty.translatesAutoresizingMaskIntoConstraints = false
-        lableEmpty.text = "Привычки и события можно \n объединить по смыслу"
+        lableEmpty.text = NSLocalizedString("categories.lable.Empty", comment: "")
         lableEmpty.textColor = UIColor.black
         lableEmpty.font = UIFont.systemFont(ofSize: 12, weight: .medium)
         lableEmpty.textAlignment = .center
@@ -99,7 +99,7 @@ class CategoriesViewController: UIViewController, AddNewCategoryViewControllerDe
         
         view.addSubview(uiHeaderLable)
         uiHeaderLable.translatesAutoresizingMaskIntoConstraints = false
-        uiHeaderLable.text = "Категория"
+        uiHeaderLable.text = NSLocalizedString("categories.uiHeaderLable", comment: "")
         uiHeaderLable.textColor = UIColor.black
         uiHeaderLable.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         uiHeaderLable.textAlignment = .center
@@ -117,7 +117,7 @@ class CategoriesViewController: UIViewController, AddNewCategoryViewControllerDe
         view.addSubview(uiButtonAddCategory)
         uiButtonAddCategory.translatesAutoresizingMaskIntoConstraints = false
         uiButtonAddCategory.backgroundColor = .black
-        uiButtonAddCategory.setTitle("Добавить категорию", for: .normal)
+        uiButtonAddCategory.setTitle(NSLocalizedString("categories.uiButtonAddCategory", comment: ""), for: .normal)
         uiButtonAddCategory.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
         uiButtonAddCategory.tintColor = .white
         uiButtonAddCategory.layer.cornerRadius = 16

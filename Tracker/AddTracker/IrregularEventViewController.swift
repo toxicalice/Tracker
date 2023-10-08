@@ -17,7 +17,7 @@ class IrregularEventViewController: UIViewController, AddCategoryDelegate{
     var selectedCategory:String?
     var tableView: UITableView!
     let idCell = "cell"
-    let callTitles = "Категория"
+    let callTitles = NSLocalizedString("irregularEvent.callTitles", comment: "")
     var selectedDay:[Tracker.Ordinary] = []
     var trackersVCdelegate: NewHabitDelegate? = nil
     
@@ -34,7 +34,7 @@ class IrregularEventViewController: UIViewController, AddCategoryDelegate{
         
         view.addSubview(uiHeaderLable)
         uiHeaderLable.translatesAutoresizingMaskIntoConstraints = false
-        uiHeaderLable.text = "Новое нерегулярное событие"
+        uiHeaderLable.text = NSLocalizedString("irregularEvent.uiHeaderLable", comment: "")
         uiHeaderLable.textColor = UIColor.black
         uiHeaderLable.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         uiHeaderLable.textAlignment = .center
@@ -48,7 +48,7 @@ class IrregularEventViewController: UIViewController, AddCategoryDelegate{
         uiTextField = PaddedTextFeild()
         view.addSubview(uiTextField)
         uiTextField.translatesAutoresizingMaskIntoConstraints = false
-        uiTextField.placeholder = "Введите название трекера"
+        uiTextField.placeholder = NSLocalizedString("irregularEvent.uiTextField", comment: "")
         uiTextField.layer.cornerRadius = 16
         uiTextField.backgroundColor = UIColor(named: "ColorBackground")
         uiTextField.addTarget(self, action: #selector(self.textChanged(_:)), for: .editingChanged)
@@ -97,7 +97,7 @@ class IrregularEventViewController: UIViewController, AddCategoryDelegate{
        
         uiButtonCancel.translatesAutoresizingMaskIntoConstraints = false
         uiButtonCancel.backgroundColor = .clear
-        uiButtonCancel.setTitle("Отменить", for: .normal)
+        uiButtonCancel.setTitle(NSLocalizedString("irregularEvent.uiButtonCancel", comment: ""), for: .normal)
         uiButtonCancel.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
         uiButtonCancel.setTitleColor(UIColor(named: "ColorRed"), for: .normal)
         uiButtonCancel.layer.borderColor = UIColor(named: "ColorRed")?.cgColor
@@ -113,7 +113,7 @@ class IrregularEventViewController: UIViewController, AddCategoryDelegate{
         
         uiButtonCreate.translatesAutoresizingMaskIntoConstraints = false
         uiButtonCreate.backgroundColor = UIColor(named: "ColorGray")
-        uiButtonCreate.setTitle("Создать", for: .normal)
+        uiButtonCreate.setTitle(NSLocalizedString("irregularEvent.uiButtonCreate", comment: ""), for: .normal)
         uiButtonCreate.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
         uiButtonCreate.tintColor = .white
         uiButtonCreate.layer.cornerRadius = 16

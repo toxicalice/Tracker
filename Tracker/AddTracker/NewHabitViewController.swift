@@ -43,7 +43,7 @@ class NewHabitViewController: UIViewController, AddCategoryDelegate, AddNewTimeT
         
         view.addSubview(uiHeaderLable)
         uiHeaderLable.translatesAutoresizingMaskIntoConstraints = false
-        uiHeaderLable.text = "Новая привычка"
+        uiHeaderLable.text = NSLocalizedString("newHabit.uiHeaderLable", comment: "")
         uiHeaderLable.textColor = UIColor.black
         uiHeaderLable.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         uiHeaderLable.textAlignment = .center
@@ -57,7 +57,7 @@ class NewHabitViewController: UIViewController, AddCategoryDelegate, AddNewTimeT
         uiTextField = PaddedTextFeild()
         view.addSubview(uiTextField)
         uiTextField.translatesAutoresizingMaskIntoConstraints = false
-        uiTextField.placeholder = "Введите название трекера"
+        uiTextField.placeholder = NSLocalizedString("newHabit.uiTextField", comment: "")
         uiTextField.layer.cornerRadius = 16
         uiTextField.backgroundColor = UIColor(named: "ColorBackground")
         uiTextField.addTarget(self, action: #selector(self.textChanged(_:)), for: .editingChanged)
@@ -106,7 +106,7 @@ class NewHabitViewController: UIViewController, AddCategoryDelegate, AddNewTimeT
        
         uiButtonCancel.translatesAutoresizingMaskIntoConstraints = false
         uiButtonCancel.backgroundColor = .clear
-        uiButtonCancel.setTitle("Отменить", for: .normal)
+        uiButtonCancel.setTitle(NSLocalizedString("newHabit.uiButtonCancel", comment: ""), for: .normal)
         uiButtonCancel.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
         uiButtonCancel.setTitleColor(UIColor(named: "ColorRed"), for: .normal)
         uiButtonCancel.layer.borderColor = UIColor(named: "ColorRed")?.cgColor
@@ -122,7 +122,7 @@ class NewHabitViewController: UIViewController, AddCategoryDelegate, AddNewTimeT
         
         uiButtonCreate.translatesAutoresizingMaskIntoConstraints = false
         uiButtonCreate.backgroundColor = UIColor(named: "ColorGray")
-        uiButtonCreate.setTitle("Создать", for: .normal)
+        uiButtonCreate.setTitle(NSLocalizedString("newHabit.uiButtonCreate", comment: ""), for: .normal)
         uiButtonCreate.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
         uiButtonCreate.tintColor = .white
         uiButtonCreate.layer.cornerRadius = 16
@@ -308,11 +308,11 @@ extension NewHabitViewController: UITableViewDataSource{
             return nil
             
         case 1:
-            headerCell.titleLabel.text = "Emoji"
+            headerCell.titleLabel.text = NSLocalizedString("newHabit.headerCell.titleLabel.emoji", comment: "")
             return headerView
             
         case 2:
-            headerCell.titleLabel.text = "Цвет"
+            headerCell.titleLabel.text = NSLocalizedString("newHabit.headerCell.titleLabel.color", comment: "")
             return headerView
             
         default:

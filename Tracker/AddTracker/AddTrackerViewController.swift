@@ -29,7 +29,7 @@ class AddTrackerViewController: UIViewController, NewHabitDelegate {
         
         view.addSubview(uiHeaderLable)
         uiHeaderLable.translatesAutoresizingMaskIntoConstraints = false
-        uiHeaderLable.text = "Создание трекера"
+        uiHeaderLable.text = NSLocalizedString("addTracker.uiHeaderLable", comment: "")
         uiHeaderLable.textColor = UIColor.black
         uiHeaderLable.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         uiHeaderLable.textAlignment = .center
@@ -49,7 +49,7 @@ class AddTrackerViewController: UIViewController, NewHabitDelegate {
         view.addSubview(uiButtonHabit)
         uiButtonHabit.translatesAutoresizingMaskIntoConstraints = false
         uiButtonHabit.backgroundColor = .black
-        uiButtonHabit.setTitle("Привычка", for: .normal)
+        uiButtonHabit.setTitle(NSLocalizedString("addTracker.uiButtonHabit", comment: ""), for: .normal)
         uiButtonHabit.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
         uiButtonHabit.tintColor = .white
         uiButtonHabit.layer.cornerRadius = 16
@@ -68,7 +68,7 @@ class AddTrackerViewController: UIViewController, NewHabitDelegate {
         view.addSubview(uiButtonIrregularEvent)
         uiButtonIrregularEvent.translatesAutoresizingMaskIntoConstraints = false
         uiButtonIrregularEvent.backgroundColor = .black
-        uiButtonIrregularEvent.setTitle("Нерегулярные событие", for: .normal)
+        uiButtonIrregularEvent.setTitle(NSLocalizedString("addTracker.uiButtonIrregularEvent", comment: ""), for: .normal)
         uiButtonIrregularEvent.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
         uiButtonIrregularEvent.tintColor = .white
         uiButtonIrregularEvent.layer.cornerRadius = 16
