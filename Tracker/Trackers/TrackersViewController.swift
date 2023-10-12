@@ -8,9 +8,10 @@
 import Foundation
 import WebKit
 import UIKit
+import YandexMobileMetrica
 
-class TrackersViewController: UIViewController, AddTrackerDelegate, TrakerCellDelegate{
-   
+class TrackersViewController: UIViewController, AddTrackerDelegate, TrakerCellDelegate, EditViewControllerDelegat{
+    
     var labelName:UILabel!
     var lableData:UIDatePicker!
     var searchBar:UISearchBar!
@@ -22,6 +23,7 @@ class TrackersViewController: UIViewController, AddTrackerDelegate, TrakerCellDe
     var visibleTrackers: [TrackerCategory] = []
     
     override func viewDidLoad() {
+        super.viewDidLoad()
         setupViews()
         setupEmptyPlaceholder()
         setupCollectionView()
@@ -35,6 +37,21 @@ class TrackersViewController: UIViewController, AddTrackerDelegate, TrakerCellDe
         searchBar.searchTextField.delegate = self
         updateVisibleTrackers()
         addTapGestureToHideKeyboard()
+        
+        let params : [AnyHashable : Any] = ["event": "open", "screen": "Main"]
+        YMMYandexMetrica.reportEvent("open", parameters: params, onFailure: { (error) in
+            print("DID FAIL REPORT EVENT: %@", "open")
+            print("REPORT ERROR: %@", error.localizedDescription)
+        })
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        let params : [AnyHashable : Any] = ["event": "close", "screen": "Main"]
+        YMMYandexMetrica.reportEvent("close", parameters: params, onFailure: { (error) in
+            print("DID FAIL REPORT EVENT: %@", "close")
+            print("REPORT ERROR: %@", error.localizedDescription)
+        })
     }
     
     private func showCollectionView(visible: Bool) {
@@ -218,7 +235,11 @@ class TrackersViewController: UIViewController, AddTrackerDelegate, TrakerCellDe
        let addTrackerViewController = AddTrackerViewController()
         addTrackerViewController.addTrackerDelegate = self
        present(addTrackerViewController, animated: true)
-   
+        let params : [AnyHashable : Any] = ["event": "click", "screen": "Main", "item": "add_track"]
+        YMMYandexMetrica.reportEvent("click", parameters: params, onFailure: { (error) in
+            print("DID FAIL REPORT EVENT: %@", "click")
+            print("REPORT ERROR: %@", error.localizedDescription)
+        })
     }
     
     func addTracker(tracker: Tracker, category: String) {
@@ -252,7 +273,6 @@ class TrackersViewController: UIViewController, AddTrackerDelegate, TrakerCellDe
     }
     
     func addDayForCounter(tracker: Tracker) {
-        
         let tracerRecord = TrackerRecord(trackerId: tracker.id, date: currentDate)
         TrackersController.shared.addTrackerRecord(record: tracerRecord)
         collectionView.reloadData()
@@ -263,6 +283,10 @@ class TrackersViewController: UIViewController, AddTrackerDelegate, TrakerCellDe
         collectionView.reloadData()
     }
     
+    func editTracker(category: String, tracker: Tracker) {
+        TrackersController.shared.updateTracker(tracker: tracker)
+        updateVisibleTrackers()
+    }
     
 } // конец класса TrackersViewController
     
@@ -282,6 +306,8 @@ extension TrackersViewController: UICollectionViewDataSource {
         let activeButton = currentDate <= Date() 
         cell?.setupCell(tracker: category.trackers[indexPath.row], daysCount: TrackersController.shared.completedTrackersCount(id: category.trackers[indexPath.row].id), done: done, activeButton: activeButton)
         cell?.delegate = self
+        let contextMenuInteraction = UIContextMenuInteraction(delegate: self)
+            cell?.addInteraction(contextMenuInteraction)
         return cell!
     }
     
@@ -329,5 +355,49 @@ extension TrackersViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         searchBar.resignFirstResponder()
         return true
+    }
+}
+
+extension TrackersViewController:UIContextMenuInteractionDelegate {
+    func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
+        let cell = interaction.view as! UICollectionViewCell
+        let indexPath = collectionView.indexPath(for: cell)!
+        return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { suggestedActions -> UIMenu? in
+               let action1 = UIAction(title: "Закрепить", handler: { _ in
+                   
+               })
+
+               let action2 = UIAction(title: "Редактировать", handler: { [weak self]_ in
+                   guard let self = self else {return}
+                   var editViewController = EditViewController()
+                   let category = self.visibleTrackers[indexPath.section]
+                   editViewController.category = category.header
+                   editViewController.tracker =  self.visibleTrackers[indexPath.section].trackers[indexPath.row]
+                   editViewController.days = TrackersController.shared.completedTrackersCount(id: category.trackers[indexPath.row].id)
+                   editViewController.trackersVCdelegate = self
+                   self.present(editViewController, animated: true)
+                   
+                   let params : [AnyHashable : Any] = ["event": "click", "screen": "Main", "item": "edit"]
+                   YMMYandexMetrica.reportEvent("click", parameters: params, onFailure: { (error) in
+                       print("DID FAIL REPORT EVENT: %@", "click")
+                       print("REPORT ERROR: %@", error.localizedDescription)
+                   })
+               })
+            
+            let action3 = UIAction(title: "Удалить", handler: { [weak self] _ in
+                guard let self = self else {return}
+                let category = self.visibleTrackers[indexPath.section]
+                TrackersController.shared.deleteTracker(trackerID: category.trackers[indexPath.row].id)
+                updateVisibleTrackers()
+                
+                let params : [AnyHashable : Any] = ["event": "click", "screen": "Main", "item": "delete"]
+                YMMYandexMetrica.reportEvent("click", parameters: params, onFailure: { (error) in
+                    print("DID FAIL REPORT EVENT: %@", "click")
+                    print("REPORT ERROR: %@", error.localizedDescription)
+                })
+            })
+
+               return UIMenu(title: "", children: [action1, action2, action3])
+           }
     }
 }

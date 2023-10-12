@@ -54,5 +54,35 @@ class TrackerStore {
         return newTrackers.compactMap({$0})
     }
     
+    func updateTracker(tracker: Tracker) {
+        let request = NSFetchRequest<NSManagedObjectID>(entityName: "TrackerCoreData")
+        request.predicate = NSPredicate(format: " %K == %@", "id", tracker.id as CVarArg)
+        request.resultType = .managedObjectIDResultType
+        let managedObjectID = try! context.fetch(request).first
+        guard let objectID = managedObjectID else {return}
+        let object = try! context.existingObject(with: objectID) as? TrackerCoreData
+
+//        object?.category = category
+        object?.color = tracker.color.hexStringFromColor()
+        object?.emoji = tracker.emoji
+        object?.name = tracker.name
+        object?.ordinary = tracker.ordinary.map({ dayOfWeek in
+            return dayOfWeek.rawValue
+        })
+        try! context.save()
+    }
+    
+    func deleteTracker (trackerID: UUID) {
+        let request = NSFetchRequest<TrackerCoreData>(entityName: "TrackerCoreData")
+        let trackers = try! context.fetch(request)
+        let tracker = trackers.first { tracker in
+            tracker.id == trackerID
+        }
+        guard let tracker = tracker else {return}
+        context.delete(tracker)
+        try! context.save()
+    }
+    
+    
 } //конец TrackerStore
 
