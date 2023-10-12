@@ -326,7 +326,9 @@ extension TrackersViewController: UICollectionViewDataSource {
         view.titleLabel.text = visibleTrackers[indexPath.section].header
         return view
     }
-    }
+    
+    func pinTracker(_ category: TrackerCategory, _ tracker: Tracker){}
+}
 
     
 extension TrackersViewController: UICollectionViewDelegateFlowLayout {
@@ -363,11 +365,14 @@ extension TrackersViewController:UIContextMenuInteractionDelegate {
         let cell = interaction.view as! UICollectionViewCell
         let indexPath = collectionView.indexPath(for: cell)!
         return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { suggestedActions -> UIMenu? in
-               let action1 = UIAction(title: "Закрепить", handler: { _ in
-                   
+               let action1 = UIAction(title: "Закрепить", handler: { [weak self] _ in
+                   guard let self = self else {return}
+                   let category = self.visibleTrackers[indexPath.section]
+                   let tracker = self.visibleTrackers[indexPath.section].trackers[indexPath.row]
+                   pinTracker(category, tracker)
                })
 
-               let action2 = UIAction(title: "Редактировать", handler: { [weak self]_ in
+               let action2 = UIAction(title: "Редактировать", handler: { [weak self] _ in
                    guard let self = self else {return}
                    var editViewController = EditViewController()
                    let category = self.visibleTrackers[indexPath.section]

@@ -17,6 +17,10 @@
 "tracker.Model.ordinary.saturday" = "Sat";
 "tracker.Model.ordinary.sunday" = "Sun";
 
+"StatisticsViewController.title" = "Statistics";
+"StatisticsViewController.placeholderTitle" = "No info";
+"StatisticsViewController.trackersCompleted" = "Trackers ended";
+
 "onbording.first.text" = "Track only \n what you want";
 "onbording.second.text" = "Even if it's \n not liters of water and yoga";
 

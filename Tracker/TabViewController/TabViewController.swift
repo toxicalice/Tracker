@@ -13,7 +13,7 @@ class TabViewController: UITabBarController {
         super.viewDidLoad()
         
         let trackersViewController = TrackersViewController()
-        let statisticViewController = StatisticViewController()
+        let statisticViewController = StatisticsViewController()
         trackersViewController.title = NSLocalizedString("tabView.trackersViewController.title", comment: "")
         statisticViewController.title = NSLocalizedString("tabView.statisticViewController.title", comment: "")
         

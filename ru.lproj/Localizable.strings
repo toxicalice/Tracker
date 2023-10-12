@@ -21,6 +21,10 @@
 "onbording.first.text" = "Отслеживайте только \n то, что хотите";
 "onbording.second.text" = "Даже если это \n не литры воды и йога";
 
+"StatisticsViewController.title" = "Статистика";
+"StatisticsViewController.placeholderTitle" = "Анализировать пока нечего";
+"StatisticsViewController.trackersCompleted" = "Трекеров завершено";
+
 "categories.lable.Empty" = "Привычки и события можно \n объединить по смыслу";
 "categories.uiHeaderLable" = "Категория";
 "categories.uiButtonAddCategory" = "Добавить категорию";
