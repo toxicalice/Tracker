@@ -190,7 +190,7 @@ class EditViewController:UIViewController, AddCategoryDelegate, AddNewTimeTableD
         guard let trackerName = trackerName else {return}
         guard let selectedEmoji = selectedEmoji else {return}
         guard let selectedColor = selectedColor else {return}
-        trackersVCdelegate?.editTracker(category: selectedCategory, tracker: Tracker(id: id, name: trackerName, color: selectedColor, emoji: selectedEmoji, ordinary: selectedDay))
+        trackersVCdelegate?.editTracker(category: selectedCategory, tracker: Tracker(id: id, name: trackerName, color: selectedColor, emoji: selectedEmoji, ordinary: selectedDay, isPinned: tracker?.isPinned ?? false))
         dismiss(animated: true)
     }
     

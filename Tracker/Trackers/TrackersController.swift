@@ -10,7 +10,7 @@ import Foundation
 class TrackersController {
    static let shared: TrackersController = TrackersController()
     
-    private let trackerStore = TrackerStore()
+    let trackerStore = TrackerStore()
     private let trackerCategoryStore = TrackerCategoryStore()
     private let trackerRecordStore = TrackerRecordStore()
     

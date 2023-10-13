@@ -161,7 +161,7 @@ class NewHabitViewController: UIViewController, AddCategoryDelegate, AddNewTimeT
         guard let trackerName = trackerName else {return}
         guard let selectedEmoji = selectedEmoji else {return}
         guard let selectedColor = selectedColor else {return}
-        trackersVCdelegate?.addTracker(tracker: Tracker(id: UUID(), name: trackerName, color: selectedColor, emoji: selectedEmoji, ordinary: selectedDay), category: selectedCategory)
+        trackersVCdelegate?.addTracker(tracker: Tracker(id: UUID(), name: trackerName, color: selectedColor, emoji: selectedEmoji, ordinary: selectedDay, isPinned: false), category: selectedCategory)
         dismiss(animated: true)
     }
     

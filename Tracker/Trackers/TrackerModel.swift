@@ -14,6 +14,7 @@ struct Tracker {
     let color: UIColor
     let emoji: String
     let ordinary: [Ordinary]
+    let isPinned: Bool
     
     enum Ordinary: String, CaseIterable {
         case monday = "Понедельник"

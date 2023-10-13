@@ -45,10 +45,11 @@ class TrackerStore {
             guard let uiColor = UIColor(hex:color) else {return nil}
             guard let emoji = tracker.emoji else {return nil}
             guard let ordinary = tracker.ordinary else {return nil}
+
             let trackerUI = Tracker(id: id, name: name, color: uiColor, emoji: emoji, ordinary: ordinary.map({ dayOfWeek in
                 guard let ordinary = Tracker.Ordinary(rawValue: dayOfWeek) else {return .friday}
                 return ordinary
-            }))
+            }), isPinned: tracker.isPinned)
             return trackerUI
         }
         return newTrackers.compactMap({$0})
@@ -80,6 +81,32 @@ class TrackerStore {
         }
         guard let tracker = tracker else {return}
         context.delete(tracker)
+        try! context.save()
+    }
+    
+    func pinTracker(tracker: Tracker) {
+        let request = NSFetchRequest<NSManagedObjectID>(entityName: "TrackerCoreData")
+        request.predicate = NSPredicate(format: " %K == %@", "id", tracker.id as CVarArg)
+        request.resultType = .managedObjectIDResultType
+        let managedObjectID = try! context.fetch(request).first
+        guard let objectID = managedObjectID else {return}
+        let object = try! context.existingObject(with: objectID) as? TrackerCoreData
+
+        object?.isPinned = true
+
+        try! context.save()
+    }
+    
+    func unPinTracker(tracker: Tracker) {
+        let request = NSFetchRequest<NSManagedObjectID>(entityName: "TrackerCoreData")
+        request.predicate = NSPredicate(format: " %K == %@", "id", tracker.id as CVarArg)
+        request.resultType = .managedObjectIDResultType
+        let managedObjectID = try! context.fetch(request).first
+        guard let objectID = managedObjectID else {return}
+        let object = try! context.existingObject(with: objectID) as? TrackerCoreData
+
+        object?.isPinned = false
+
         try! context.save()
     }
     

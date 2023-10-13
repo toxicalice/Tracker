@@ -153,7 +153,7 @@ class IrregularEventViewController: UIViewController, AddCategoryDelegate{
     private func didTapButtonCreate() {
         guard let selectedCategory = selectedCategory else {return}
         guard let trackerName = trackerName else {return}
-        trackersVCdelegate?.addTracker(tracker: Tracker(id: UUID(), name: trackerName, color: .brown, emoji: "😀", ordinary: selectedDay), category: selectedCategory)
+        trackersVCdelegate?.addTracker(tracker: Tracker(id: UUID(), name: trackerName, color: .brown, emoji: "😀", ordinary: selectedDay, isPinned: false), category: selectedCategory)
         dismiss(animated: true)
     }
     

@@ -201,7 +201,7 @@ class TrackersViewController: UIViewController, AddTrackerDelegate, TrakerCellDe
     
     private func updateVisibleTrackers() {
         let categories = TrackersController.shared.getCategory()
-        let dateFilter = categories.map { category in
+        var dateFilter = categories.map { category in
             let trackers = category.trackers.filter { tracker in
                 if !tracker.ordinary.isEmpty {
                     let day = Tracker.Ordinary.getByIndex(index: currentDate.dayNumberOfWeek())
@@ -223,6 +223,15 @@ class TrackersViewController: UIViewController, AddTrackerDelegate, TrakerCellDe
             !category.trackers.isEmpty
         }
         visibleTrackers = []
+        let needPinCategory = dateFilter.contains { $0.trackers.contains {$0.isPinned}}
+        let additional = 0
+        if needPinCategory {
+            dateFilter.insert(TrackerCategory(header: "Закреплено", trackers: dateFilter
+                .filter{$0.trackers.contains {$0.isPinned}}
+                        .flatMap({ category in
+                category.trackers.filter{$0.isPinned}
+            })), at: 0)
+        }
         visibleTrackers = dateFilter
         showPlaceholder(visible: visibleTrackers.isEmpty)
         showCollectionView(visible: !visibleTrackers.isEmpty)
@@ -327,7 +336,13 @@ extension TrackersViewController: UICollectionViewDataSource {
         return view
     }
     
-    func pinTracker(_ category: TrackerCategory, _ tracker: Tracker){}
+    func pinTracker(_ category: TrackerCategory, _ tracker: Tracker){
+        TrackersController.shared.trackerStore.pinTracker(tracker: tracker)
+    }
+    
+    func unPinTracker(_ category: TrackerCategory, _ tracker: Tracker){
+        TrackersController.shared.trackerStore.unPinTracker(tracker: tracker)
+    }
 }
 
     
@@ -365,16 +380,28 @@ extension TrackersViewController:UIContextMenuInteractionDelegate {
         let cell = interaction.view as! UICollectionViewCell
         let indexPath = collectionView.indexPath(for: cell)!
         return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { suggestedActions -> UIMenu? in
-               let action1 = UIAction(title: "Закрепить", handler: { [weak self] _ in
-                   guard let self = self else {return}
-                   let category = self.visibleTrackers[indexPath.section]
-                   let tracker = self.visibleTrackers[indexPath.section].trackers[indexPath.row]
-                   pinTracker(category, tracker)
+            let category = self.visibleTrackers[indexPath.section]
+            let tracker = self.visibleTrackers[indexPath.section].trackers[indexPath.row]
+            let needPinCategory = tracker.isPinned
+            var title = "Закрепить"
+            
+            if needPinCategory {
+                title = "Открепить"
+            }
+            
+               let action1 = UIAction(title: title, handler: { [weak self] _ in
+                   if needPinCategory {
+                       self?.unPinTracker(category, tracker)
+                   } else {
+                       self?.pinTracker(category, tracker)
+                   }
+                   
+                   self?.updateVisibleTrackers()
                })
 
                let action2 = UIAction(title: "Редактировать", handler: { [weak self] _ in
                    guard let self = self else {return}
-                   var editViewController = EditViewController()
+                   let editViewController = EditViewController()
                    let category = self.visibleTrackers[indexPath.section]
                    editViewController.category = category.header
                    editViewController.tracker =  self.visibleTrackers[indexPath.section].trackers[indexPath.row]
