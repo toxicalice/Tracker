@@ -22,6 +22,7 @@ class AddNewCategoryViewController: UIViewController {
     
     override func viewDidLoad() {
         setupViews()
+        addTapGestureToHideKeyboard()
         
     }
     
@@ -46,7 +47,7 @@ class AddNewCategoryViewController: UIViewController {
         uiTextField = PaddedTextFeild()
         view.addSubview(uiTextField)
         uiTextField.translatesAutoresizingMaskIntoConstraints = false
-        uiTextField.placeholder = "Введите название трекера"
+        uiTextField.placeholder = "Введите название категории"
         uiTextField.layer.cornerRadius = 16
         uiTextField.backgroundColor = UIColor(named: "ColorBackground")
         uiTextField.addTarget(self, action: #selector(self.textChanged(_:)), for: .editingChanged)

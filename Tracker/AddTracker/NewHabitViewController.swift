@@ -31,6 +31,8 @@ class NewHabitViewController: UIViewController, AddCategoryDelegate, AddNewTimeT
     override func viewDidLoad() {
         setupViews()
         tableView.register(SupplementaryTableView.self, forCellReuseIdentifier: "customTableCell")
+        uiTextField.delegate = self
+        addTapGestureToHideKeyboard()
     }
     
     private func setupViews() {
@@ -55,7 +57,7 @@ class NewHabitViewController: UIViewController, AddCategoryDelegate, AddNewTimeT
         uiTextField = PaddedTextFeild()
         view.addSubview(uiTextField)
         uiTextField.translatesAutoresizingMaskIntoConstraints = false
-        uiTextField.placeholder = "Введите название категории"
+        uiTextField.placeholder = "Введите название трекера"
         uiTextField.layer.cornerRadius = 16
         uiTextField.backgroundColor = UIColor(named: "ColorBackground")
         uiTextField.addTarget(self, action: #selector(self.textChanged(_:)), for: .editingChanged)
@@ -318,3 +320,12 @@ extension NewHabitViewController: UITableViewDataSource{
         }
     }
 } // конец класса NewHabitViewController
+
+
+extension NewHabitViewController: UITextFieldDelegate {
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        uiTextField.resignFirstResponder()
+        return true
+    }
+}

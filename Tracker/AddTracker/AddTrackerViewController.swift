@@ -18,7 +18,7 @@ class AddTrackerViewController: UIViewController, NewHabitDelegate {
     var addTrackerDelegate: AddTrackerDelegate? = nil
     
     override func viewDidLoad() {
-        setupViews() 
+        setupViews()
     }
     
     private func setupViews() {
@@ -103,3 +103,4 @@ class AddTrackerViewController: UIViewController, NewHabitDelegate {
         present(IrregularEventViewController, animated: true)
     }
 }
+

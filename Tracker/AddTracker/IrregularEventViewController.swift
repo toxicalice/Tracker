@@ -23,6 +23,8 @@ class IrregularEventViewController: UIViewController, AddCategoryDelegate{
     
     override func viewDidLoad() {
         setupViews()
+        uiTextField.delegate = self
+        addTapGestureToHideKeyboard()
     }
     
     private func setupViews() {
@@ -196,5 +198,15 @@ extension IrregularEventViewController: UITableViewDataSource {
         }
     
        return cell
+    }
+}
+
+
+
+extension IrregularEventViewController: UITextFieldDelegate {
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        uiTextField.resignFirstResponder()
+        return true
     }
 }
