@@ -1,0 +1,56 @@
+/* 
+  Localizable.strings
+  Tracker
+
+  Created by Алиса Долматова on 03.10.2023.
+  
+*/
+
+"tracker.empty.title" = "Что будем отслеживать?";
+"tracker.header" = "Трекеры";
+"tracker.searchBar" = "Поиск";
+
+"tracker.Model.ordinary.monday" = "Пн";
+"tracker.Model.ordinary.tuesday" = "Вт";
+"tracker.Model.ordinary.wednesday" = "Ср";
+"tracker.Model.ordinary.thursday" = "Чт";
+"tracker.Model.ordinary.friday" = "Пт";
+"tracker.Model.ordinary.saturday" = "Сб";
+"tracker.Model.ordinary.sunday" = "Вс";
+
+"onbording.first.text" = "Отслеживайте только \n то, что хотите";
+"onbording.second.text" = "Даже если это \n не литры воды и йога";
+
+"StatisticsViewController.title" = "Статистика";
+"StatisticsViewController.placeholderTitle" = "Анализировать пока нечего";
+"StatisticsViewController.trackersCompleted" = "Трекеров завершено";
+
+"categories.lable.Empty" = "Привычки и события можно \n объединить по смыслу";
+"categories.uiHeaderLable" = "Категория";
+"categories.uiButtonAddCategory" = "Добавить категорию";
+"categories.AddNew.uiHeaderLable" = "Новая категория";
+"categories.AddNew.uiTextField" = "Введите название категории";
+"categories.AddNew.uiButtonReady" = "Готово";
+
+"tabView.trackersViewController.title" = "Трекеры";
+"tabView.statisticViewController.title" = "Статистика";
+
+"addTracker.uiHeaderLable" = "Создание трекера";
+"addTracker.uiButtonHabit" = "Привычка";
+"addTracker.uiButtonIrregularEvent" = "Нерегулярные событие";
+"newHabit.uiHeaderLable" = "Новая привычка";
+"newHabit.uiTextField" = "Введите название трекера";
+"newHabit.uiButtonCancel" = "Отменить";
+"newHabit.uiButtonCreate" = "Создать";
+"newHabit.headerCell.titleLabel.emoji" = "Emoji";
+"newHabit.headerCell.titleLabel.color" = "Цвет";
+
+"irregularEvent.callTitles" = "Категория";
+"irregularEvent.uiHeaderLable" = "Новое нерегулярное событие";
+"irregularEvent.uiTextField" = "Введите название трекера";
+"irregularEvent.uiButtonCancel" = "Отменить";
+"irregularEvent.uiButtonCreate" = "Создать";
+
+"timeTable.uiHeaderLable" = "Расписание";
+"timeTable.uiButtonReady" = "Готово";
+

@@ -14,6 +14,7 @@ struct Tracker {
     let color: UIColor
     let emoji: String
     let ordinary: [Ordinary]
+    let isPinned: Bool
     
     enum Ordinary: String, CaseIterable {
         case monday = "Понедельник"
@@ -26,13 +27,13 @@ struct Tracker {
         
         func shortText() -> String {
             switch self {
-            case .monday : return "Пн"
-            case .tuesday : return "Вт"
-            case .wednesday : return "Ср"
-            case .thursday : return "Чт"
-            case .friday : return "Пт"
-            case .saturday : return "Сб"
-            case .sunday : return "Вс"
+            case .monday : return NSLocalizedString("tracker.Model.ordinary.monday", comment: "")
+            case .tuesday : return NSLocalizedString("tracker.Model.ordinary.tuesday", comment: "")
+            case .wednesday : return NSLocalizedString("tracker.Model.ordinary.wednesday", comment: "")
+            case .thursday : return NSLocalizedString("tracker.Model.ordinary.thursday", comment: "")
+            case .friday : return NSLocalizedString("tracker.Model.ordinary.friday", comment: "")
+            case .saturday : return NSLocalizedString("tracker.Model.ordinary.saturday", comment: "")
+            case .sunday : return NSLocalizedString("tracker.Model.ordinary.sunday", comment: "")
             }
         }
         

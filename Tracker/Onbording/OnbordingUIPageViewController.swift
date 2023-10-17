@@ -13,9 +13,9 @@ class OnbordingUIPageViewController: UIPageViewController, UIPageViewControllerD
     lazy var pages:[UIViewController] = {
         let first = OnbordingViewController()
         let second = OnbordingViewController()
-        first.text = "Отслеживайте только \n то, что хотите"
+        first.text = NSLocalizedString("onbording.first.text", comment: "")
         first.image = UIImage(named: "background1")
-        second.text = "Даже если это \n не литры воды и йога"
+        second.text = NSLocalizedString("onbording.second.text", comment: "")
         second.image = UIImage(named: "background2")
         return [first,second]
     }()

@@ -42,7 +42,7 @@ class TimeTableViewController: UIViewController {
         
         view.addSubview(uiHeaderLable)
         uiHeaderLable.translatesAutoresizingMaskIntoConstraints = false
-        uiHeaderLable.text = "Расписание"
+        uiHeaderLable.text = NSLocalizedString("timeTable.uiHeaderLable", comment: "")
         uiHeaderLable.textColor = UIColor.black
         uiHeaderLable.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         uiHeaderLable.textAlignment = .center
@@ -60,7 +60,7 @@ class TimeTableViewController: UIViewController {
         view.addSubview(uiButtonReady)
         uiButtonReady.translatesAutoresizingMaskIntoConstraints = false
         uiButtonReady.backgroundColor = .black
-        uiButtonReady.setTitle("Готово", for: .normal)
+        uiButtonReady.setTitle(NSLocalizedString("timeTable.uiButtonReady", comment: ""), for: .normal)
         uiButtonReady.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
         uiButtonReady.tintColor = .white
         uiButtonReady.layer.cornerRadius = 16

@@ -10,7 +10,7 @@ import Foundation
 class TrackersController {
    static let shared: TrackersController = TrackersController()
     
-    private let trackerStore = TrackerStore()
+    let trackerStore = TrackerStore()
     private let trackerCategoryStore = TrackerCategoryStore()
     private let trackerRecordStore = TrackerRecordStore()
     
@@ -38,6 +38,11 @@ class TrackersController {
         trackerStore.getTracker()
     }
     
+    func deleteTracker (trackerID: UUID) {
+        trackerStore.deleteTracker(trackerID: trackerID)
+        trackerRecordStore.deleteAllTrackerRecord(tracerID: trackerID)
+    }
+    
     func addCategory(category: TrackerCategory) {
         trackerCategoryStore.addCategory(category: category)
     }
@@ -52,6 +57,10 @@ class TrackersController {
     
     func addTrackerRecord (record: TrackerRecord ) {
         trackerRecordStore.addTrackerRecord(record: record)
+    }
+    
+    func updateTracker (tracker: Tracker) {
+        trackerStore.updateTracker(tracker: tracker)
     }
     
     func deleteTracerRecord (tracerID: UUID) {

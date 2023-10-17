@@ -56,7 +56,10 @@ class TrackerCall:UICollectionViewCell{
     
     
     func setupCell(tracker: Tracker, daysCount: Int, done:Bool, activeButton: Bool) {
-        uiLableDay.text = "\(String(daysCount)) \(daysCount.days())"
+        uiLableDay.text = String.localizedStringWithFormat(
+            NSLocalizedString("numberOfDays", comment: ""),
+            daysCount
+        )
         uiLableEmoji.text = tracker.emoji
         uiLableTitle.text = tracker.name
         uiPlusButton.tintColor = tracker.color
@@ -89,7 +92,7 @@ class TrackerCall:UICollectionViewCell{
         cellFooterContainer.addSubview(uiLableDay)
         uiLableDay.translatesAutoresizingMaskIntoConstraints = false
         uiLableDay.font = UIFont.systemFont(ofSize: 12, weight: .medium)
-        uiLableDay.textColor = UIColor.black
+        uiLableDay.textColor = UIColor(named: "Black")
        
         
         NSLayoutConstraint.activate([

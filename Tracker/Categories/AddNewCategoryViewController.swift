@@ -34,7 +34,7 @@ class AddNewCategoryViewController: UIViewController {
         
         view.addSubview(uiHeaderLable)
         uiHeaderLable.translatesAutoresizingMaskIntoConstraints = false
-        uiHeaderLable.text = "Новая категория"
+        uiHeaderLable.text = NSLocalizedString("categories.AddNew.uiHeaderLable", comment: "")
         uiHeaderLable.textColor = UIColor.black
         uiHeaderLable.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         uiHeaderLable.textAlignment = .center
@@ -47,7 +47,7 @@ class AddNewCategoryViewController: UIViewController {
         uiTextField = PaddedTextFeild()
         view.addSubview(uiTextField)
         uiTextField.translatesAutoresizingMaskIntoConstraints = false
-        uiTextField.placeholder = "Введите название категории"
+        uiTextField.placeholder = NSLocalizedString("categories.AddNew.uiTextField", comment: "")
         uiTextField.layer.cornerRadius = 16
         uiTextField.backgroundColor = UIColor(named: "ColorBackground")
         uiTextField.addTarget(self, action: #selector(self.textChanged(_:)), for: .editingChanged)
@@ -66,7 +66,7 @@ class AddNewCategoryViewController: UIViewController {
         view.addSubview(uiButtonReady)
         uiButtonReady.translatesAutoresizingMaskIntoConstraints = false
         uiButtonReady.backgroundColor = .black
-        uiButtonReady.setTitle("Готово", for: .normal)
+        uiButtonReady.setTitle(NSLocalizedString("categories.AddNew.uiButtonReady", comment: ""), for: .normal)
         uiButtonReady.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
         uiButtonReady.tintColor = .white
         uiButtonReady.layer.cornerRadius = 16
