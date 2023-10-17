@@ -40,6 +40,7 @@ class TrackersController {
     
     func deleteTracker (trackerID: UUID) {
         trackerStore.deleteTracker(trackerID: trackerID)
+        trackerRecordStore.deleteAllTrackerRecord(tracerID: trackerID)
     }
     
     func addCategory(category: TrackerCategory) {

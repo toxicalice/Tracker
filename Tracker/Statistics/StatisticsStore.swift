@@ -22,7 +22,7 @@ final class StatisticsStore: NSObject {
     func getStatistics() -> Int {
         let statisticsRequest = NSFetchRequest<TrackerRecordCoreData>(entityName: "TrackerRecordCoreData")
         do {
-            let result = try context.fetch(statisticsRequest).count - 1
+            let result = try context.fetch(statisticsRequest).count
             return result
         } catch {
             return 0

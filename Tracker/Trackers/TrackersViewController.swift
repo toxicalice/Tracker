@@ -416,7 +416,7 @@ extension TrackersViewController:UIContextMenuInteractionDelegate {
                    })
                })
             
-            let action3 = UIAction(title: "Удалить", handler: { [weak self] _ in
+            let action3 = UIAction(title: "Удалить", attributes: .destructive, handler: { [weak self] _ in
                 guard let self = self else {return}
                 let category = self.visibleTrackers[indexPath.section]
                 TrackersController.shared.deleteTracker(trackerID: category.trackers[indexPath.row].id)

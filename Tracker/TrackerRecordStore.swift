@@ -39,6 +39,16 @@ class TrackerRecordStore {
         context.delete(record)
     }
     
+    func deleteAllTrackerRecord (tracerID: UUID) {
+        let request = NSFetchRequest<TrackerRecordCoreData>(entityName: "TrackerRecordCoreData")
+        let recods = try! context.fetch(request)
+        recods.forEach { record in
+            if (record.trackerId == tracerID) {
+                context.delete(record)
+            }
+        }
+    }
+    
     func getTracerRecord (tracerID: UUID) -> [TrackerRecord]{
         let request = NSFetchRequest<TrackerRecordCoreData>(entityName: "TrackerRecordCoreData")
         let recods = try! context.fetch(request)

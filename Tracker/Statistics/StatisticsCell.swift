@@ -42,7 +42,7 @@ final class StatisticsCell: UITableViewCell {
     
     private func setupView() {
         let gradient = CAGradientLayer()
-        gradient.colors = [UIColor(hex: "007BFA")?.cgColor, UIColor(hex: "46E69D")?.cgColor, UIColor(hex: "FD4C49")?.cgColor]
+        gradient.colors = [UIColor(hex: "#007BFA")!.cgColor, UIColor(hex: "#46E69D")!.cgColor, UIColor(hex: "#FD4C49")!.cgColor]
         gradient.startPoint = CGPoint(x: 0, y: 0)
         gradient.endPoint = CGPoint(x: 1, y: 0)
         gradient.locations = [0.0, 0.5, 1.0]
